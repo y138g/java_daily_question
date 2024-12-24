@@ -30,17 +30,26 @@ public class Solution {
         System.out.println(Arrays.toString(nums2));
         System.out.println(Arrays.toString(nums3));
 
-        int[] height = {1, 8, 6, 2, 5, 4, 8, 3, 7};
+        int[] height = {1, 2, 3, 4, 5, 25, 24, 3, 4};
         int i2 = maxAreaCase1(height);
+        int i3 = maxAreaCase2(height);
         System.out.println(i2);
+        System.out.println(i3);
+
+        int[] num4 = {-2, 0, 1, 1, 2};
+        int[] num5 = {0, 0, 0, 0};
+        List<List<Integer>> lists1 = threeSumCase2(num4);
+        List<List<Integer>> lists2 = threeSumCase2(num5);
+        System.out.println(lists1);
+        System.out.println(lists2);
     }
 
     /**
-     * ä¸¤æ•°ä¹‹å’Œ å®ç°æ–¹æ³•1 leetcode 1
+     * Á½ÊıÖ®ºÍ ÊµÏÖ·½·¨1 leetcode 1
      *
-     * @param nums   ç›®æ ‡æ•°ç»„
-     * @param target ç›®æ ‡å€¼
-     * @return è¿”å›æ•°ç»„ä¸‹æ ‡
+     * @param nums   Ä¿±êÊı×é
+     * @param target Ä¿±êÖµ
+     * @return ·µ»ØÊı×éÏÂ±ê
      */
     public static int[] sumOfTwoNumbersCase1(int[] nums, int target) {
         for (int i = 0; i < nums.length; i++) {
@@ -54,30 +63,30 @@ public class Solution {
     }
 
     /**
-     * ä¸¤æ•°ä¹‹å’Œ å®ç°æ–¹æ³•2 leetcode 1
+     * Á½ÊıÖ®ºÍ ÊµÏÖ·½·¨2 leetcode 1
      *
-     * @param nums   ç›®æ ‡æ•°ç»„
-     * @param target ç›®æ ‡å€¼
-     * @return è¿”å›æ•°ç»„ä¸‹æ ‡
+     * @param nums   Ä¿±êÊı×é
+     * @param target Ä¿±êÖµ
+     * @return ·µ»ØÊı×éÏÂ±ê
      */
     public static int[] sumOfTwoNumbersCase2(int[] nums, int target) {
         Map<Integer, Integer> hashtable = new HashMap<>();
         for (int i = 0; i < nums.length; ++i) {
-            // å¦‚æœå­˜åœ¨ target - nums[i] çš„å€¼ï¼Œåˆ™è¿”å›ä¸¤ä¸ªå€¼çš„ä¸‹æ ‡
+            // Èç¹û´æÔÚ target - nums[i] µÄÖµ£¬Ôò·µ»ØÁ½¸öÖµµÄÏÂ±ê
             if (hashtable.containsKey(target - nums[i])) {
                 return new int[]{hashtable.get(target - nums[i]), i};
             }
-            // å¦åˆ™ï¼Œå°† nums[i] æ”¾å…¥å“ˆå¸Œè¡¨ä¸­
+            // ·ñÔò£¬½« nums[i] ·ÅÈë¹şÏ£±íÖĞ
             hashtable.put(nums[i], i);
         }
         return new int[0];
     }
 
     /**
-     * å­—æ¯å¼‚ä½è¯åˆ†ç»„ å®ç°æ–¹æ³•1 leetcode 49
+     * ×ÖÄ¸ÒìÎ»´Ê·Ö×é ÊµÏÖ·½·¨1 leetcode 49
      *
-     * @param strs å­—ç¬¦ä¸²æ•°ç»„
-     * @return è¿”å›å­—æ¯å¼‚ä½è¯åˆ†ç»„
+     * @param strs ×Ö·û´®Êı×é
+     * @return ·µ»Ø×ÖÄ¸ÒìÎ»´Ê·Ö×é
      */
     public static List<List<String>> LetterAnagramGroupingCase1(String[] strs) {
         Map<String, List<String>> map = new HashMap<>();
@@ -93,10 +102,10 @@ public class Solution {
     }
 
     /**
-     * æœ€é•¿è¿ç»­åºåˆ— å®ç°æ–¹æ³•1 leetcode 128
+     * ×î³¤Á¬ĞøĞòÁĞ ÊµÏÖ·½·¨1 leetcode 128
      *
-     * @param nums ç›®æ ‡æ•°ç»„
-     * @return è¿”å›æœ€é•¿è¿ç»­åºåˆ—é•¿åº¦
+     * @param nums Ä¿±êÊı×é
+     * @return ·µ»Ø×î³¤Á¬ĞøĞòÁĞ³¤¶È
      */
     private static int longestConsecutiveCase1(int[] nums) {
         TreeMap<Integer, Integer> map = new TreeMap<>();
@@ -129,10 +138,10 @@ public class Solution {
     }
 
     /**
-     * æœ€é•¿è¿ç»­åºåˆ— å®ç°æ–¹æ³•2 leetcode 128
+     * ×î³¤Á¬ĞøĞòÁĞ ÊµÏÖ·½·¨2 leetcode 128
      *
-     * @param nums ç›®æ ‡æ•°ç»„
-     * @return è¿”å›æœ€é•¿è¿ç»­åºåˆ—é•¿åº¦
+     * @param nums Ä¿±êÊı×é
+     * @return ·µ»Ø×î³¤Á¬ĞøĞòÁĞ³¤¶È
      */
     private static int longestConsecutiveCase2(int[] nums) {
         Set<Integer> set = new HashSet<>();
@@ -157,9 +166,9 @@ public class Solution {
     }
 
     /**
-     * ç§»åŠ¨é›¶ å®ç°æ–¹æ³•1 leetcode 283
+     * ÒÆ¶¯Áã ÊµÏÖ·½·¨1 leetcode 283
      *
-     * @param nums ç›®æ ‡æ•°ç»„
+     * @param nums Ä¿±êÊı×é
      */
     private static void moveZeroesCase1(int[] nums) {
         int n = nums.length, left = 0, right = 0;
@@ -173,11 +182,11 @@ public class Solution {
     }
 
     /**
-     * äº¤æ¢æ•°ç»„å…ƒç´ 
+     * ½»»»Êı×éÔªËØ
      *
-     * @param nums  ç›®æ ‡æ•°ç»„
-     * @param left  å·¦æŒ‡é’ˆ
-     * @param right å³æŒ‡é’ˆ
+     * @param nums  Ä¿±êÊı×é
+     * @param left  ×óÖ¸Õë
+     * @param right ÓÒÖ¸Õë
      */
     private static void swap(int[] nums, int left, int right) {
         int temp = nums[left];
@@ -186,9 +195,9 @@ public class Solution {
     }
 
     /**
-     * ç§»åŠ¨é›¶ å®ç°æ–¹æ³•2 leetcode 283
+     * ÒÆ¶¯Áã ÊµÏÖ·½·¨2 leetcode 283
      *
-     * @param nums ç›®æ ‡æ•°ç»„
+     * @param nums Ä¿±êÊı×é
      */
     private static void moveZeroesCase2(int[] nums) {
         int n = nums.length;
@@ -206,17 +215,16 @@ public class Solution {
     }
 
     /**
-     * ç››æœ€å¤šæ°´çš„å®¹å™¨ å®ç°æ–¹æ³•1 leetcode 11
+     * Ê¢×î¶àË®µÄÈİÆ÷ ÊµÏÖ·½·¨1 leetcode 11
      *
-     * @param height ç›®æ ‡æ•°ç»„
-     * @return è¿”å›æœ€å¤§é¢ç§¯
+     * @param height Ä¿±êÊı×é
+     * @return ·µ»Ø×î´óÃæ»ı
      */
     private static int maxAreaCase1(int[] height) {
         int left = 0, right = height.length - 1;
         List<Integer> arrayList = new ArrayList<>();
         while (left < right) {
-            int minHeight = Math.min(height[left], height[right]);
-            int area = minHeight * (right - left);
+            int area = Math.min(height[left], height[right]) * (right - left);
             if (height[right] > height[left]) {
                 left++;
             } else {
@@ -227,4 +235,137 @@ public class Solution {
         arrayList.sort(Collections.reverseOrder());
         return arrayList.get(0);
     }
+
+    /**
+     * Ê¢×î¶àË®µÄÈİÆ÷ ÊµÏÖ·½·¨2 leetcode 11
+     *
+     * @param height Ä¿±êÊı×é
+     * @return ·µ»Ø×î´óÃæ»ı
+     */
+    private static int maxAreaCase2(int[] height) {
+        int left = 0, right = height.length - 1;
+        int heightLeft = 0;
+        int heightRight = 0;
+        int maxArea = 0;
+        while (left < right) {
+            heightLeft = height[left];
+            heightRight = height[right];
+            int area = Math.min(heightLeft, heightRight) * (right - left);
+            maxArea = Math.max(maxArea, area);
+            if (height[right] > height[left]) {
+                do left++; while (left < right && height[left] < heightLeft);
+            } else {
+                do right--; while (left < right && height[right] < heightRight);
+            }
+        }
+        return maxArea;
+    }
+
+    /**
+     * ÈıÊıÖ®ºÍ ÊµÏÖ·½·¨1 leetcode 15
+     *
+     * @param nums Ä¿±êÊı×é
+     * @return ·µ»ØÈıÊıÖ®ºÍÎª0µÄÊı×é
+     */
+    private static List<List<Integer>> threeSumCase1(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : nums) {
+            set.add(num);
+        }
+        if (set.size() < 2) {
+            Integer next = set.iterator().next();
+            List<List<Integer>> result = new ArrayList<>();
+            if (next == 0) {
+                result.add(Arrays.asList(0, 0, 0));
+            }
+            return result;
+        }
+        // ÏÈ¶ÔÊı×é½øĞĞÅÅĞò
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);
+        int left = 0, right = 0;
+        // ±éÀúÊı×é£¬´ÓµÚÒ»¸ö¿ªÊ¼
+        for (int i = 0; i < nums.length - 2; i++) {
+            left = i + 1;
+            right = nums.length - 1;
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum == 0) {
+                    List<Integer> listSort = new ArrayList<>();
+                    listSort.add(nums[i]);
+                    listSort.add(nums[left]);
+                    listSort.add(nums[right]);
+                    listSort.sort(Collections.reverseOrder());
+                    result.add(listSort);
+                    right--;
+                }
+                if (sum > 0) {
+                    right--;
+                    if (nums[right] == nums[right + 1]) {
+                        right--;
+                    }
+                }
+                if (sum < 0) {
+                    left++;
+                    if (nums[left] == nums[left - 1]) {
+                        left++;
+                    }
+                }
+            }
+        }
+        // È¥ÖØ
+        HashSet<List<Integer>> hashSet = new HashSet<>(result);
+        return new ArrayList<>(hashSet);
+    }
+
+    /**
+     * ÈıÊıÖ®ºÍ ÊµÏÖ·½·¨2 leetcode 15
+     *
+     * @param nums Ä¿±êÊı×é
+     * @return ·µ»ØÈıÊıÖ®ºÍÎª0µÄÊı×é
+     */
+    private static List<List<Integer>> threeSumCase2(int[] nums) {
+        HashSet<Integer> set = new HashSet<>();
+        for (int num : nums) set.add(num);
+        if (set.size() < 2) {
+            Integer next = set.iterator().next();
+            List<List<Integer>> result = new ArrayList<>();
+            if (next == 0) result.add(Arrays.asList(0, 0, 0));
+            return result;
+        }
+        // ÏÈ¶ÔÊı×é½øĞĞÅÅĞò
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);
+        int left = 0, right = 0, sign = nums[0];
+        // ±éÀúÊı×é£¬´ÓµÚÒ»¸ö¿ªÊ¼
+        for (int i = 0; i < nums.length - 2; i++) {
+            if (i > 0 && sign == nums[i]) continue;
+            left = i + 1;
+            right = nums.length - 1;
+            while (left < right) {
+                int sum = nums[i] + nums[left] + nums[right];
+                if (sum == 0) {
+                    List<Integer> listSort = new ArrayList<>();
+                    listSort.add(nums[i]);
+                    listSort.add(nums[left]);
+                    listSort.add(nums[right]);
+                    listSort.sort(Collections.reverseOrder());
+                    result.add(listSort);
+                    right--;
+                }
+                if (sum > 0) {
+                    right--;
+                    if (nums[right] == nums[right + 1]) right--;
+                }
+                if (sum < 0) {
+                    left++;
+                    if (nums[left] == nums[left - 1]) left++;
+                }
+            }
+        }
+        // È¥ÖØ
+        HashSet<List<Integer>> hashSet = new HashSet<>(result);
+        return new ArrayList<>(hashSet);
+    }
 }
+
