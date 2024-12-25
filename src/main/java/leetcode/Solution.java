@@ -42,6 +42,13 @@ public class Solution {
         List<List<Integer>> lists2 = threeSumCase2(num5);
         System.out.println(lists1);
         System.out.println(lists2);
+
+        int[] height1 = {4, 2, 0, 3, 2, 5};
+        int[] height2 = {0, 1, 0, 2, 1, 0, 1, 3, 2, 1, 2, 1};
+        int i4 = trapCase1(height1);
+        int i5 = trapCase1(height2);
+        System.out.println(i4);
+        System.out.println(i5);
     }
 
     /**
@@ -367,5 +374,46 @@ public class Solution {
         HashSet<List<Integer>> hashSet = new HashSet<>(result);
         return new ArrayList<>(hashSet);
     }
+
+    /**
+     * 接雨水 实现方法1：单调栈 leetcode 42
+     *
+     * @param height 目标数组
+     * @return 返回接雨水的面积
+     */
+    private static int trapCase1(int[] height) {
+        // 定义一个栈
+        Stack<Integer> stack = new Stack<>();
+        // 初始化总面积
+        int area = 0;
+        // 单调递增栈，栈中存储的是下标
+        for (int i = 0; i < height.length; i++) {
+            // 如果栈为空，直接入栈；如果当前元素小于栈顶元素，直接入栈
+            if (stack.isEmpty() || height[i] < height[stack.peek()]) {
+                stack.push(i);
+            } else {
+                // 如果当前元素大于栈顶元素，将栈顶元素弹出，并计算面积
+                while (!stack.isEmpty() && height[i] >= height[stack.peek()]) {
+                    Integer popIndex = stack.pop();
+                    // 如果栈为空，直接继续循环
+                    if (stack.isEmpty()) {
+                        stack.push(i);
+                        break;
+                    }
+                    int topIndex = stack.peek();
+                    // 计算高度差值
+                    int diff = Math.min(height[i], height[topIndex]) - height[popIndex];
+                    // 计算宽度
+                    int width = i - topIndex - 1;
+                    // 计算面积
+                    area += diff * width;
+                    // 将当前元素入栈
+                }
+                stack.push(i);
+            }
+        }
+        return area;
+    }
+
 }
 
