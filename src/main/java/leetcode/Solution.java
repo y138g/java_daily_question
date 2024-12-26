@@ -49,6 +49,12 @@ public class Solution {
         int i5 = trapCase1(height2);
         System.out.println(i4);
         System.out.println(i5);
+
+        String s = "dvdf";
+        int i6 = lengthOfLongestSubstringCase1(s);
+        int i7 = lengthOfLongestSubstringCase2(s);
+        System.out.println(i6);
+        System.out.println(i7);
     }
 
     /**
@@ -413,6 +419,59 @@ public class Solution {
             }
         }
         return area;
+    }
+
+    /**
+     * 无重复字符的最长子串 实现方法1：哈希表+双指针 leetcode 3
+     *
+     * @param s 目标字符串
+     * @return 返回最长子串长度
+     */
+    private static int lengthOfLongestSubstringCase1(String s) {
+        char[] strArr = s.toCharArray();
+        // 定义一个哈希表
+        HashMap<Character, Integer> hashtable = new HashMap<>();
+        // 定义一个最长子串长度
+        int maxLength = 0;
+        // 定义两个指针
+        int left = 0, right = 0;
+        // 遍历第一个指针
+        for (left = 0; left < strArr.length; left++) {
+            right = left;
+            // 遍历第二个指针
+            while (right < strArr.length) {
+                if (hashtable.containsKey(strArr[right])) {
+                    break;
+                }
+                hashtable.put(strArr[right], 1);
+                right++;
+            }
+            maxLength = Math.max(maxLength, hashtable.size());
+            hashtable.clear();
+        }
+        return maxLength;
+    }
+
+    /**
+     * 无重复字符的最长子串 实现方法2：滑动窗口优化，本质依旧是哈希表+双指针 leetcode 3
+     *
+     * @param s 目标字符串
+     * @return 返回最长子串长度
+     */
+    private static int lengthOfLongestSubstringCase2(String s) {
+        char[] strArr = s.toCharArray();
+        int left = 0, right = 0;
+        int maxLength = 0;
+        HashMap<Character, Integer> hashtable = new HashMap<>();
+        for (left = 0; left < strArr.length; left++) {
+            for(;right<strArr.length;right++) {
+                if (hashtable.containsKey(strArr[right])) break;
+                hashtable.put(strArr[right], 1);
+            }
+            maxLength = Math.max(maxLength, hashtable.size());
+            hashtable.remove(strArr[left]);
+        }
+        return maxLength;
     }
 
 }
