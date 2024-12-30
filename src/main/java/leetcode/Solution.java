@@ -55,6 +55,10 @@ public class Solution {
         int i7 = lengthOfLongestSubstringCase2(s);
         System.out.println(i6);
         System.out.println(i7);
+
+        String s1 = "abab", p = "ab";
+        List<Integer> anagramsCase1 = findAnagramsCase2(s1, p);
+        System.out.println(anagramsCase1);
     }
 
     /**
@@ -464,7 +468,7 @@ public class Solution {
         int maxLength = 0;
         HashMap<Character, Integer> hashtable = new HashMap<>();
         for (left = 0; left < strArr.length; left++) {
-            for(;right<strArr.length;right++) {
+            for (; right < strArr.length; right++) {
                 if (hashtable.containsKey(strArr[right])) break;
                 hashtable.put(strArr[right], 1);
             }
@@ -472,6 +476,83 @@ public class Solution {
             hashtable.remove(strArr[left]);
         }
         return maxLength;
+    }
+
+    /**
+     * 找到字符串中所有字母异位词 实现方法1：滑动窗口 leetcode 438
+     *
+     * @param s 目标字符串
+     * @param p 目标字符串
+     * @return 返回所有字母异位词的起始索引
+     */
+    private static List<Integer> findAnagramsCase1(String s, String p) {
+        int[] hashtable = new int[26];
+        List<Integer> result = new ArrayList<>();
+        boolean sign;
+
+        if (s.length() < p.length()) {
+            return result;
+        }
+
+        for (int i = 0; i < p.length(); i++) {
+            hashtable[p.charAt(i) - 'a']++;     // 并不需要记住字符a的ASCII，只要求出一个相对数值就可以了
+        }
+        for (int i = 0; i <= s.length() - p.length(); i++) {
+            sign = true;
+            int[] record = new int[26];
+            System.arraycopy(hashtable, 0, record, 0, hashtable.length);
+            for (int j = i; j < i + p.length(); j++) {
+                record[s.charAt(j) - 'a']--;
+            }
+            for (int count : record) {
+                if (count != 0) {
+                    sign = false;
+                    break;
+                }
+            }
+            if (sign) {
+                result.add(i);
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 找到字符串中所有字母异位词 实现方法2：滑动窗口优化 leetcode 438
+     *
+     * @param s 目标字符串
+     * @param p 目标字符串
+     * @return 返回所有字母异位词的起始索引
+     */
+    private static List<Integer> findAnagramsCase2(String s, String p) {
+        int sLen = s.length(), pLen = p.length();
+
+        if (sLen < pLen) {
+            return new ArrayList<>();
+        }
+
+        List<Integer> ans = new ArrayList<>();
+        int[] sCount = new int[26];
+        int[] pCount = new int[26];
+        for (int i = 0; i < pLen; ++i) {
+            ++sCount[s.charAt(i) - 'a'];
+            ++pCount[p.charAt(i) - 'a'];
+        }
+
+        if (Arrays.equals(sCount, pCount)) {
+            ans.add(0);
+        }
+
+        for (int i = 0; i < sLen - pLen; ++i) {
+            --sCount[s.charAt(i) - 'a'];
+            ++sCount[s.charAt(i + pLen) - 'a'];
+
+            if (Arrays.equals(sCount, pCount)) {
+                ans.add(i + 1);
+            }
+        }
+
+        return ans;
     }
 
 }
