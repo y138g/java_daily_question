@@ -59,6 +59,17 @@ public class Solution {
         String s1 = "abab", p = "ab";
         List<Integer> anagramsCase1 = findAnagramsCase2(s1, p);
         System.out.println(anagramsCase1);
+
+//        nums = [1,1,1], k = 2
+        int[] nums4 = {1, 2, 3};
+        int[] nums5 = {3, 5, 2, -2, 4, 1};
+        int k = 3;
+        int i8 = subarraySumCase1(nums4, k);
+        int i9 = subarraySumCase2(nums4, k);
+        int i10 = subarraySumCase3(nums4, k);
+        System.out.println(i8);
+        System.out.println(i9);
+        System.out.println(i10);
     }
 
     /**
@@ -555,5 +566,79 @@ public class Solution {
         return ans;
     }
 
+    /**
+     * 和为 k 的子数组 实现方法1:双指针（暴力） leetcode 560
+     *
+     * @param nums 目标数组
+     * @param k    目标字符串
+     * @return 返回该数组中和为k的子数组个数
+     */
+    private static int subarraySumCase1(int[] nums, int k) {
+        int result = 0;
+        int right;
+        int sum = 0;
+        for (int left = 0; left < nums.length; left++) {
+            if (nums[left] == k) {
+                result++;
+                continue;
+            }
+            right = left + 1;
+            sum = nums[left];
+            while (right < nums.length) {
+                sum += nums[right];
+                if (sum == k) {
+                    result++;
+                }
+                right++;
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 和为 k 的子数组 实现方法2:前缀和（暴力） leetcode 560
+     *
+     * @param nums 目标数组
+     * @param k    目标字符串
+     * @return 返回该数组中和为k的子数组个数
+     */
+    private static int subarraySumCase2(int[] nums, int k) {
+        int n = nums.length;
+        int[] prenums = new int[n + 1];
+        prenums[0] = 0;
+        for (int i = 0; i < n; i++) {
+            prenums[i + 1] = nums[i] + prenums[i];
+        }
+        int result = 0;
+        for (int i = 0; i <= n; i++) {
+            for (int j = i; j < n; j++) {
+                if (prenums[j + 1] - prenums[i] == k) {
+                    result++;
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 和为 k 的子数组 实现方法3:前缀和+哈希表优化 leetcode 560
+     *
+     * @param nums 目标数组
+     * @param k    目标字符串
+     * @return 返回该数组中和为k的子数组个数
+     */
+    private static int subarraySumCase3(int[] nums, int k) {
+        int result = 0, prenum = 0;
+        HashMap<Integer, Integer> hashtable = new HashMap<>();
+        hashtable.put(0, 1);
+        for (int num : nums) {
+            prenum += num;
+            if (hashtable.containsKey(prenum - k)) {
+                result += hashtable.get(prenum - k);
+            }
+            hashtable.put(prenum, hashtable.getOrDefault(prenum, 0) + 1);
+        }
+        return result;
+    }
 }
 
