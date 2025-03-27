@@ -70,6 +70,11 @@ public class Solution {
         System.out.println(i8);
         System.out.println(i9);
         System.out.println(i10);
+
+        int[] nums6 = {1, 3, -1, -3, 5, 3, 6, 7};
+        int k1 = 3;
+        int[] ints2 = maxSlidingWindowCase1(nums6, k1);
+        System.out.println(Arrays.toString(ints2));
     }
 
     /**
@@ -639,6 +644,40 @@ public class Solution {
             hashtable.put(prenum, hashtable.getOrDefault(prenum, 0) + 1);
         }
         return result;
+    }
+
+    private static int[] maxSlidingWindowCase1(int[] nums, int k) {
+        // 数组的长度
+        int n = nums.length;
+        // 定义一个双端队列
+        Deque<Integer> deque = new LinkedList<>();
+        for (int i = 0; i < k; ++i) {
+            // 当队列不为空时，且当前元素大于等于队尾元素时，队尾元素出队
+            while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
+                deque.pollLast();
+            }
+            // 当前元素入队
+            deque.offerLast(i);
+        }
+        // 定义一个数组，用于存储每个窗口的最大值
+        int[] ans = new int[n - k + 1];
+        // 第一个窗口的最大值
+        ans[0] = nums[deque.peekFirst()];
+        for (int i = k; i < n; ++i) {
+            // 当队列不为空时，且当前元素大于等于队尾元素时，队尾元素出队
+            while (!deque.isEmpty() && nums[i] >= nums[deque.peekLast()]) {
+                deque.pollLast();
+            }
+            // 当前元素入队
+            deque.offerLast(i);
+            // 当队首元素的下标小于等于 i - k 时，队首元素出队
+            while (deque.peekFirst() <= i - k) {
+                deque.pollFirst();
+            }
+            // 当前窗口的最大值
+            ans[i - k + 1] = nums[deque.peek()];
+        }
+        return ans;
     }
 }
 
