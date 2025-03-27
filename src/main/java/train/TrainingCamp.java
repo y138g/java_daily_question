@@ -1,5 +1,7 @@
 package main.java.train;
 
+import static java.lang.Integer.MAX_VALUE;
+
 public class TrainingCamp {
 
     /**
@@ -67,5 +69,30 @@ public class TrainingCamp {
             n--;
         }
         return result;
+    }
+
+    /**
+     * 长度最小的子数组 实现方法1：滑动窗口 leetcode 209
+     *
+     * @param target 目标值
+     * @param nums   目标数组
+     * @return 返回最小子数组长度
+     */
+    public static int minSubArrayLenCase1(int target, int[] nums) {
+        int start = 0;
+        int sum = 0;
+        int minSub = MAX_VALUE;
+        for (int end = 0; end < nums.length; end++) {
+            sum = sum + nums[end];
+            while (sum >= target) {
+                sum -= nums[start];
+                minSub = Math.min(end - start + 1, minSub);
+                start++;
+            }
+        }
+        if (minSub == MAX_VALUE) {
+            return 0;
+        }
+        return minSub;
     }
 }
