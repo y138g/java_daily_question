@@ -145,4 +145,30 @@ public class TrainingCamp {
         }
         return nums;
     }
+
+    /**
+     * 移除链表元素 实现方法1：设置虚拟头节点 leetcode 203
+     *
+     * @param head 链表头节点
+     * @param val  目标值
+     * @return 返回移除元素后的链表
+     */
+    public ListNode removeElementsCase(ListNode head, int val) {
+        // 设置虚拟头节点
+        ListNode dummyNode = new ListNode();
+        dummyNode.next = head;
+
+        // 设置当前节点
+        ListNode curNode = dummyNode;
+
+        // 遍历链表
+        while (curNode.next != null) {
+            if (curNode.next.val == val) {
+                curNode.next = curNode.next.next;
+                continue;
+            }
+            curNode = curNode.next;
+        }
+        return dummyNode.next;
+    }
 }
