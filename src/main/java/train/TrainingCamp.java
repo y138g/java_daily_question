@@ -171,4 +171,50 @@ public class TrainingCamp {
         }
         return dummyNode.next;
     }
+
+    /**
+     * 反转链表 实现方法1：双指针 leetcode 206
+     *
+     * @param head 链表头节点
+     * @return 返回反转后的链表
+     */
+    public ListNode reverseListCase1(ListNode head) {
+        ListNode prev = null;
+        ListNode cur = head;
+        ListNode temp = null;
+        while (cur != null) {
+            temp = cur.next;
+            cur.next = prev;
+            prev = cur;
+            cur = temp;
+        }
+        return prev;
+    }
+
+    /**
+     * 反转链表 实现方法2：递归 leetcode 206
+     *
+     * @param head 链表头节点
+     * @return 返回反转后的链表
+     */
+    public ListNode reverseListCase2(ListNode head) {
+        return reverse(null, head);
+    }
+
+    /**
+     * 反转链表递归法
+     *
+     * @param prev 前一个节点
+     * @param cur  当前节点
+     * @return 返回反转后的链表
+     */
+    private ListNode reverse(ListNode prev, ListNode cur) {
+        if (cur == null) {
+            return prev;
+        }
+        ListNode temp = null;
+        temp = cur.next;
+        cur.next = prev;
+        return reverse(cur, temp);
+    }
 }
