@@ -4,6 +4,25 @@ import static java.lang.Integer.MAX_VALUE;
 
 public class TrainingCamp {
 
+    public static void main(String[] args) {
+        ListNode head = new ListNode(1);
+        ListNode cur;
+        cur = head;
+        for (int i = 2; i <= 4; i++) {
+            ListNode newNode = new ListNode(i);
+            cur.next = newNode;
+            cur = newNode;
+        }
+        ListNode curNode = swapPairsCase2(head);
+        while (curNode != null) {
+            System.out.print(curNode.val + " -> ");
+            curNode = curNode.next;
+        }
+
+        System.out.println("null");
+    }
+
+
     /**
      * 二分查找 实现方法1：左闭右闭 leetcode 704
      *
@@ -216,5 +235,54 @@ public class TrainingCamp {
         temp = cur.next;
         cur.next = prev;
         return reverse(cur, temp);
+    }
+
+    /**
+     * 两两交换链表中的节点 实现方法1：循环 leetcode 24
+     *
+     * @param head 链表头节点
+     * @return 返回交换后的链表
+     */
+    public ListNode swapPairsCase1(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode dummyNode = new ListNode();
+        dummyNode.next = head;
+        ListNode curNode = dummyNode;
+        ListNode firstNode = curNode.next;
+        ListNode secondNode = curNode.next.next;
+        ListNode temp = secondNode.next;
+
+        while (true) {
+            curNode.next = secondNode;
+            secondNode.next = firstNode;
+            firstNode.next = temp;
+            curNode = firstNode;
+            if (curNode.next == null || curNode.next.next == null) {
+                break;
+            }
+            firstNode = curNode.next;
+            secondNode = curNode.next.next;
+            temp = secondNode.next;
+        }
+        return dummyNode.next;
+    }
+
+    /**
+     * 两两交换链表中的节点 实现方法2：递归 leetcode 24
+     *
+     * @param head 链表头节点
+     * @return 返回交换后的链表
+     */
+    public static ListNode swapPairsCase2(ListNode head) {
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode next = head.next;
+        ListNode newNode = swapPairsCase2(next.next);
+        next.next = head;
+        head.next = newNode;
+        return next;
     }
 }
