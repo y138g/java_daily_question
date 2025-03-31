@@ -394,4 +394,26 @@ public class TrainingCamp {
         }
         return curA;
     }
+
+    /**
+     * 环形链表II 实现方法1：快慢指针 leetcode 142
+     *
+     * @param head 链表头节点
+     * @return 返回环形链表的入口节点
+     */
+    public ListNode detectCycle(ListNode head) {
+        if (head == null) return null;
+        ListNode fast = head, slow = head;
+        do {
+            if (fast.next == null || fast.next.next == null) return null;
+            fast = fast.next.next;
+            slow = slow.next;
+        } while (fast != slow);
+        ListNode cur = head;
+        while (cur != slow) {
+            cur = cur.next;
+            slow = slow.next;
+        }
+        return cur;
+    }
 }
