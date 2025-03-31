@@ -1,5 +1,7 @@
 package main.java.train;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.Stack;
 
 import static java.lang.Integer.MAX_VALUE;
@@ -443,5 +445,32 @@ public class TrainingCamp {
             }
         }
         return true;
+    }
+
+    /**
+     * 两个数组的交集 实现方法1：哈希表 leetcode 349
+     *
+     * @param nums1 数组1
+     * @param nums2 数组2
+     * @return 返回交集
+     */
+    public int[] intersectionCase1(int[] nums1, int[] nums2) {
+        if (nums1 == null || nums2 == null) {
+            return new int[0];
+        }
+        Set<Integer> set = new HashSet<>();
+        Set<Integer> reset = new HashSet<>();
+        // 将 nums1 内的元素放入哈希表
+        for (int i : nums1) {
+            set.add(i);
+        }
+        // 在 set 哈希表中找 num2 中的元素，如果有则写入 reset 哈希表
+        for (int i : nums2) {
+            if (set.contains(i)) {
+                reset.add(i);
+            }
+        }
+        // reset 哈希表转为数组
+        return reset.stream().mapToInt(Integer::intValue).toArray();
     }
 }
