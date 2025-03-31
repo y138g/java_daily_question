@@ -375,4 +375,23 @@ public class TrainingCamp {
         // 返回当前节点的总深度
         return net + 1;
     }
+
+    /**
+     * 链表相交 实现方法1：双指针 leetcode 面试题 02.07
+     *
+     * @param headA 链表A头节点
+     * @param headB 链表B头节点
+     * @return 返回相交节点
+     */
+    public ListNode getIntersectionNodeCase1(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+        ListNode curA = headA, curB = headB;
+        while (curA != curB) {
+            curA = curA == null ? headA : curA.next;
+            curB = curB == null ? headB : curB.next;
+        }
+        return curA;
+    }
 }
