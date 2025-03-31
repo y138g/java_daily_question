@@ -416,4 +416,32 @@ public class TrainingCamp {
         }
         return cur;
     }
+
+    /**
+     * 有效的字母异位词 实现方法1：哈希表 leetcode 242
+     *
+     * @param s 字符串s
+     * @param t 字符串t
+     * @return 返回是否是异位词
+     */
+    public boolean isAnagramCase1(String s, String t) {
+        if (t.length() != s.length()) {
+            return false;
+        }
+        int[] record = new int[26];
+        // 把 s 中的字符都记录下来
+        for (int i = 0; i < s.length(); i++) {
+            record[s.charAt(i) - 'a']++;
+        }
+        // 把 t 中的字符都减去
+        for (int i = 0; i < t.length(); i++) {
+            record[t.charAt(i) - 'a']--;
+        }
+        for (int r : record) {
+            if (r != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
