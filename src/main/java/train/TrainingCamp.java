@@ -24,6 +24,10 @@ public class TrainingCamp {
         }
 
         System.out.println("null");
+
+
+        int n = 19;
+        System.out.println(isHappy(n));
     }
 
 
@@ -473,4 +477,36 @@ public class TrainingCamp {
         // reset 哈希表转为数组
         return reset.stream().mapToInt(Integer::intValue).toArray();
     }
+
+    /**
+     * 快乐数 实现方法1：哈希表 leetcode 202
+     *
+     * @param n 数字
+     * @return 返回是否是快乐数
+     */
+    public static boolean isHappy(int n) {
+        Set<Integer> record = new HashSet<>();
+        while (n != 1 && !record.contains(n)) {
+            record.add(n);
+            n = getNextNum(n);
+        }
+        return n == 1;
+    }
+
+    /**
+     * 获取下一个数
+     *
+     * @param n 数字
+     * @return 返回下一个数
+     */
+    private static int getNextNum(int n) {
+        int res = 0;
+        while (n > 0) {
+            int temp = n % 10;
+            res += temp * temp;
+            n /= 10;
+        }
+        return res;
+    }
+
 }
