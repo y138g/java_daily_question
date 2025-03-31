@@ -1,5 +1,7 @@
 package main.java.train;
 
+import java.util.Stack;
+
 import static java.lang.Integer.MAX_VALUE;
 
 public class TrainingCamp {
@@ -284,5 +286,93 @@ public class TrainingCamp {
         next.next = head;
         head.next = newNode;
         return next;
+    }
+
+    /**
+     * 删除链表的倒数第N个节点 实现方法1：栈 leetcode 19
+     *
+     * @param head 链表头节点
+     * @param n    倒数第n个节点
+     * @return 返回删除倒数第n个节点后的链表
+     */
+    public ListNode removeNthFromEndCase1(ListNode head, int n) {
+        Stack<ListNode> stack = new Stack<>();
+        // 虚拟头节点的目的是防止空栈异常
+        ListNode dummyNode = new ListNode();
+        dummyNode.next = head;
+        ListNode cur = dummyNode;
+        while (cur != null) {
+            stack.push(cur);
+            cur = cur.next;
+        }
+        for (int i = 0; i < n; i++) {
+            stack.pop();
+        }
+        ListNode prev = stack.peek();
+        prev.next = prev.next.next;
+        return dummyNode.next;
+    }
+
+    /**
+     * 删除链表的倒数第N个节点 实现方法2：双指针 leetcode 19
+     *
+     * @param head 链表头节点
+     * @param n    倒数第n个节点
+     * @return 返回删除倒数第n个节点后的链表
+     */
+    public ListNode removeNthFromEndCase2(ListNode head, int n) {
+        ListNode dummyNode = new ListNode();
+        dummyNode.next = head;
+        ListNode fast = dummyNode;
+        ListNode slow = dummyNode;
+
+        for (int i = 0; i <= n; i++) {
+            fast = fast.next;
+        }
+        while (fast != null) {
+            fast = fast.next;
+            slow = slow.next;
+        }
+        // 后续只需要删除 slow 的下一个节点
+        slow.next = slow.next.next;
+        return dummyNode.next;
+    }
+
+    /**
+     * 删除链表的倒数第N个节点 实现方法3：递归 leetcode 19
+     *
+     * @param head 链表头节点
+     * @param n    倒数第n个节点
+     * @return 返回删除倒数第n个节点后的链表
+     */
+    public ListNode removeNthFromEndCase3(ListNode head, int n) {
+        // 创建一个新的哑节点，指向原链表头
+        ListNode s = new ListNode(-1, head);
+        // 递归调用remove方法，从哑节点开始进行删除操作
+        remove(s, n);
+        // 返回新链表的头（去掉可能的哑节点）
+        return s.next;
+    }
+
+    /**
+     * 递归删除倒数第n个节点
+     *
+     * @param p 当前节点
+     * @param n 倒数第n个节点
+     * @return 返回当前节点的总深度
+     */
+    private static int remove(ListNode p, int n) {
+        // 递归结束条件：如果当前节点为空，返回0
+        if (p == null) {
+            return 0;
+        }
+        // 递归深入到下一个节点
+        int net = remove(p.next, n);
+        // 如果当前节点是倒数第n个节点，进行删除操作
+        if (net == n) {
+            p.next = p.next.next;
+        }
+        // 返回当前节点的总深度
+        return net + 1;
     }
 }
