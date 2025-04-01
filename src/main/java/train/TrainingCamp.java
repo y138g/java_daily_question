@@ -26,6 +26,9 @@ public class TrainingCamp {
 
         int n = 19;
         System.out.println(isHappy(n));
+
+        String ransomNote = "aa", magazine = "aab";
+        System.out.println(canConstructCase1(ransomNote, magazine));
     }
 
 
@@ -532,4 +535,55 @@ public class TrainingCamp {
         return count;
     }
 
+
+    /**
+     * 赎金信 实现方法1：哈希表 leetcode 383
+     *
+     * @param ransomNote 赎金信
+     * @param magazine   杂志
+     * @return 返回是否可以构成
+     */
+    public static boolean canConstructCase1(String ransomNote, String magazine) {
+        if (magazine.length() < ransomNote.length()) {
+            return false;
+        }
+        Map<String, Integer> map = new HashMap<>();
+        for (String str : magazine.split("")) {
+            map.put(str, map.getOrDefault(str, 0) + 1);
+        }
+        for (String str : ransomNote.split("")) {
+            if (map.getOrDefault(str, 0) != 0) {
+                map.put(str, map.getOrDefault(str, 0) - 1);
+                continue;
+            }
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 赎金信 实现方法2：数组 leetcode 383
+     *
+     * @param ransomNote 赎金信
+     * @param magazine   杂志
+     * @return 返回是否可以构成
+     */
+    public static boolean canConstructCase2(String ransomNote, String magazine) {
+        if (magazine.length() < ransomNote.length()) {
+            return false;
+        }
+        int[] record = new int[26];
+        for (char c : magazine.toCharArray()) {
+            record[c - 'a']++;
+        }
+        for (char c : ransomNote.toCharArray()) {
+            record[c - 'a']--;
+        }
+        for (int i : record) {
+            if (i < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
 }
