@@ -1,8 +1,6 @@
 package main.java.train;
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.Stack;
+import java.util.*;
 
 import static java.lang.Integer.MAX_VALUE;
 
@@ -507,6 +505,31 @@ public class TrainingCamp {
             n /= 10;
         }
         return res;
+    }
+
+    /**
+     * 四数相加II 实现方法1：哈希表 leetcode 454
+     *
+     * @param nums1 数组1
+     * @param nums2 数组2
+     * @param nums3 数组3
+     * @param nums4 数组4
+     * @return 返回四数相加为 0 的次数
+     */
+    public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {
+        int count = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int k : nums1) {
+            for (int i : nums2) {
+                map.put(k + i, map.getOrDefault(k + i, 0) + 1);
+            }
+        }
+
+        for (int j : nums3)
+            for (int k : nums4) {
+                count += map.getOrDefault(-j - k, 0);
+            }
+        return count;
     }
 
 }
