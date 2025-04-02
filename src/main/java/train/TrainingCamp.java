@@ -29,6 +29,9 @@ public class TrainingCamp {
 
         String ransomNote = "aa", magazine = "aab";
         System.out.println(canConstructCase1(ransomNote, magazine));
+
+        int[] nums = {-1, 0, 1, 2, -1, -4};
+        System.out.println(threeSum(nums));
     }
 
 
@@ -585,5 +588,44 @@ public class TrainingCamp {
             }
         }
         return true;
+    }
+
+    /**
+     * 三数之和 实现方法1：双指针 leetcode 15
+     *
+     * @param nums 数组
+     * @return 返回三数之和为 0 的三元组
+     */
+    public static List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);
+
+        for (int i = 0; i < nums.length; i++) {
+            // 如果第一个元素大于零，不可能凑成三元组
+            if (nums[i] > 0) {
+                return result;
+            }
+            // 三元组元素a去重
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+
+            HashSet<Integer> set = new HashSet<>();
+            for (int j = i + 1; j < nums.length; j++) {
+                // 三元组元素b去重
+                if (j > i + 2 && nums[j] == nums[j - 1] && nums[j - 1] == nums[j - 2]) {
+                    continue;
+                }
+
+                int c = -nums[i] - nums[j];
+                if (set.contains(c)) {
+                    result.add(Arrays.asList(nums[i], nums[j], c));
+                    set.remove(c); // 三元组元素c去重
+                } else {
+                    set.add(nums[j]);
+                }
+            }
+        }
+        return result;
     }
 }
