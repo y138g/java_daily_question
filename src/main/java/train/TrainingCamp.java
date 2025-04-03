@@ -1,6 +1,6 @@
 package main.java.train;
 
-import java.util.Stack;
+import java.util.*;
 
 import static java.lang.Integer.MAX_VALUE;
 
@@ -22,6 +22,16 @@ public class TrainingCamp {
         }
 
         System.out.println("null");
+
+
+        int n = 19;
+        System.out.println(isHappy(n));
+
+        String ransomNote = "aa", magazine = "aab";
+        System.out.println(canConstructCase1(ransomNote, magazine));
+
+        int[] nums = {-1, 0, 1, 2, -1, -4};
+        System.out.println(threeSum(nums));
     }
 
 
@@ -374,5 +384,263 @@ public class TrainingCamp {
         }
         // 返回当前节点的总深度
         return net + 1;
+    }
+
+    /**
+     * 链表相交 实现方法1：双指针 leetcode 面试题 02.07
+     *
+     * @param headA 链表A头节点
+     * @param headB 链表B头节点
+     * @return 返回相交节点
+     */
+    public ListNode getIntersectionNodeCase1(ListNode headA, ListNode headB) {
+        if (headA == null || headB == null) {
+            return null;
+        }
+        ListNode curA = headA, curB = headB;
+        while (curA != curB) {
+            curA = curA == null ? headA : curA.next;
+            curB = curB == null ? headB : curB.next;
+        }
+        return curA;
+    }
+
+    /**
+     * 环形链表II 实现方法1：快慢指针 leetcode 142
+     *
+     * @param head 链表头节点
+     * @return 返回环形链表的入口节点
+     */
+    public ListNode detectCycle(ListNode head) {
+        if (head == null) return null;
+        ListNode fast = head, slow = head;
+        do {
+            if (fast.next == null || fast.next.next == null) return null;
+            fast = fast.next.next;
+            slow = slow.next;
+        } while (fast != slow);
+        ListNode cur = head;
+        while (cur != slow) {
+            cur = cur.next;
+            slow = slow.next;
+        }
+        return cur;
+    }
+
+    /**
+     * 有效的字母异位词 实现方法1：哈希表 leetcode 242
+     *
+     * @param s 字符串s
+     * @param t 字符串t
+     * @return 返回是否是异位词
+     */
+    public boolean isAnagramCase1(String s, String t) {
+        if (t.length() != s.length()) {
+            return false;
+        }
+        int[] record = new int[26];
+        // 把 s 中的字符都记录下来
+        for (int i = 0; i < s.length(); i++) {
+            record[s.charAt(i) - 'a']++;
+        }
+        // 把 t 中的字符都减去
+        for (int i = 0; i < t.length(); i++) {
+            record[t.charAt(i) - 'a']--;
+        }
+        for (int r : record) {
+            if (r != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 两个数组的交集 实现方法1：哈希表 leetcode 349
+     *
+     * @param nums1 数组1
+     * @param nums2 数组2
+     * @return 返回交集
+     */
+    public int[] intersectionCase1(int[] nums1, int[] nums2) {
+        if (nums1 == null || nums2 == null) {
+            return new int[0];
+        }
+        Set<Integer> set = new HashSet<>();
+        Set<Integer> reset = new HashSet<>();
+        // 将 nums1 内的元素放入哈希表
+        for (int i : nums1) {
+            set.add(i);
+        }
+        // 在 set 哈希表中找 num2 中的元素，如果有则写入 reset 哈希表
+        for (int i : nums2) {
+            if (set.contains(i)) {
+                reset.add(i);
+            }
+        }
+        // reset 哈希表转为数组
+        return reset.stream().mapToInt(Integer::intValue).toArray();
+    }
+
+    /**
+     * 快乐数 实现方法1：哈希表 leetcode 202
+     *
+     * @param n 数字
+     * @return 返回是否是快乐数
+     */
+    public static boolean isHappy(int n) {
+        Set<Integer> record = new HashSet<>();
+        while (n != 1 && !record.contains(n)) {
+            record.add(n);
+            n = getNextNum(n);
+        }
+        return n == 1;
+    }
+
+    /**
+     * 获取下一个数
+     *
+     * @param n 数字
+     * @return 返回下一个数
+     */
+    private static int getNextNum(int n) {
+        int res = 0;
+        while (n > 0) {
+            int temp = n % 10;
+            res += temp * temp;
+            n /= 10;
+        }
+        return res;
+    }
+
+    /**
+     * 四数相加II 实现方法1：哈希表 leetcode 454
+     *
+     * @param nums1 数组1
+     * @param nums2 数组2
+     * @param nums3 数组3
+     * @param nums4 数组4
+     * @return 返回四数相加为 0 的次数
+     */
+    public int fourSumCount(int[] nums1, int[] nums2, int[] nums3, int[] nums4) {
+        int count = 0;
+        Map<Integer, Integer> map = new HashMap<>();
+        for (int k : nums1) {
+            for (int i : nums2) {
+                map.put(k + i, map.getOrDefault(k + i, 0) + 1);
+            }
+        }
+
+        for (int j : nums3)
+            for (int k : nums4) {
+                count += map.getOrDefault(-j - k, 0);
+            }
+        return count;
+    }
+
+
+    /**
+     * 赎金信 实现方法1：哈希表 leetcode 383
+     *
+     * @param ransomNote 赎金信
+     * @param magazine   杂志
+     * @return 返回是否可以构成
+     */
+    public static boolean canConstructCase1(String ransomNote, String magazine) {
+        if (magazine.length() < ransomNote.length()) {
+            return false;
+        }
+        Map<String, Integer> map = new HashMap<>();
+        for (String str : magazine.split("")) {
+            map.put(str, map.getOrDefault(str, 0) + 1);
+        }
+        for (String str : ransomNote.split("")) {
+            if (map.getOrDefault(str, 0) != 0) {
+                map.put(str, map.getOrDefault(str, 0) - 1);
+                continue;
+            }
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * 赎金信 实现方法2：数组 leetcode 383
+     *
+     * @param ransomNote 赎金信
+     * @param magazine   杂志
+     * @return 返回是否可以构成
+     */
+    public static boolean canConstructCase2(String ransomNote, String magazine) {
+        if (magazine.length() < ransomNote.length()) {
+            return false;
+        }
+        int[] record = new int[26];
+        for (char c : magazine.toCharArray()) {
+            record[c - 'a']++;
+        }
+        for (char c : ransomNote.toCharArray()) {
+            record[c - 'a']--;
+        }
+        for (int i : record) {
+            if (i < 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    /**
+     * 三数之和 实现方法1：双指针 leetcode 15
+     *
+     * @param nums 数组
+     * @return 返回三数之和为 0 的三元组
+     */
+    public static List<List<Integer>> threeSum(int[] nums) {
+        List<List<Integer>> result = new ArrayList<>();
+        Arrays.sort(nums);
+
+        for (int i = 0; i < nums.length; i++) {
+            // 如果第一个元素大于零，不可能凑成三元组
+            if (nums[i] > 0) {
+                return result;
+            }
+            // 三元组元素a去重
+            if (i > 0 && nums[i] == nums[i - 1]) {
+                continue;
+            }
+
+            HashSet<Integer> set = new HashSet<>();
+            for (int j = i + 1; j < nums.length; j++) {
+                // 三元组元素b去重
+                if (j > i + 2 && nums[j] == nums[j - 1] && nums[j - 1] == nums[j - 2]) {
+                    continue;
+                }
+
+                int c = -nums[i] - nums[j];
+                if (set.contains(c)) {
+                    result.add(Arrays.asList(nums[i], nums[j], c));
+                    set.remove(c); // 三元组元素c去重
+                } else {
+                    set.add(nums[j]);
+                }
+            }
+        }
+        return result;
+    }
+
+    /**
+     * 反转字符串 实现方法1：双指针 leetcode 344
+     * @param s 字符串
+     */
+    public void reverseString(char[] s) {
+        int left = 0, right = s.length - 1;
+        while (left <= right) {
+            char temp = s[left];
+            s[left] = s[right];
+            s[right] = temp;
+            left++;
+            right--;
+        }
     }
 }
