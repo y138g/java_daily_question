@@ -32,6 +32,10 @@ public class TrainingCamp {
 
         int[] nums = {-1, 0, 1, 2, -1, -4};
         System.out.println(threeSum(nums));
+
+        String s = "abcdefg";
+        int k = 2;
+        System.out.println(reverseStr(s, k));
     }
 
 
@@ -631,6 +635,7 @@ public class TrainingCamp {
 
     /**
      * 反转字符串 实现方法1：双指针 leetcode 344
+     *
      * @param s 字符串
      */
     public void reverseString(char[] s) {
@@ -643,4 +648,36 @@ public class TrainingCamp {
             right--;
         }
     }
+
+    /**
+     * 反转字符串II 实现方法1：双指针 leetcode 541
+     *
+     * @param s 字符串
+     * @param k 每隔 k 个字符反转
+     * @return 返回反转后的字符串
+     */
+    public static String reverseStr(String s, int k) {
+        StringBuilder res = new StringBuilder();
+        int length = s.length();
+        int start = 0;
+        while (start < length) {
+            // 找到k处和2k处
+            StringBuilder temp = new StringBuilder();
+            // 与length进行判断，如果大于length了，那就将其置为length
+            int firstK = Math.min(start + k, length);
+            int secondK = Math.min(start + (2 * k), length);
+
+            //无论start所处位置，至少会反转一次
+            temp.append(s, start, firstK);
+            res.append(temp.reverse());
+
+            // 如果firstK到secondK之间有元素，这些元素直接放入res里即可。
+            if (firstK < secondK) { //此时剩余长度一定大于k。
+                res.append(s, firstK, secondK);
+            }
+            start += (2 * k);
+        }
+        return res.toString();
+    }
+
 }
