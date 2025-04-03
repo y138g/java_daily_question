@@ -36,6 +36,10 @@ public class TrainingCamp {
         String s = "abcdefg";
         int k = 2;
         System.out.println(reverseStr(s, k));
+
+        System.out.println("---------------");
+        String s1 = "  hello     world    ";
+        System.out.println(reverseWords(s1));
     }
 
 
@@ -680,4 +684,60 @@ public class TrainingCamp {
         return res.toString();
     }
 
+    /**
+     * 反转字符串中的单词 实现方法1：双指针 leetcode 151
+     *
+     * @param s 字符串
+     * @return 返回反转后的字符串
+     */
+    public static String reverseWords(String s) {
+        int slow = 0;
+        char[] chars = s.toCharArray();
+        for (int fast = 0; fast < s.length(); fast++) {
+            if (chars[fast] != ' ') {
+                if (slow != 0 && chars[fast - 1] == ' ') {
+                    chars[slow] = ' ';
+                    slow++;
+                }
+                chars[slow] = chars[fast];
+                slow++;
+            }
+        }
+        chars = Arrays.copyOf(chars, slow);
+
+        reverse(chars, 0, chars.length - 1);
+
+        int start = 0;
+        //end <= s.length() 这里的 = ，是为了让 end 永远指向单词末尾后一个位置，这样 reverse 的实参更好设置
+        for (int end = 0; end <= chars.length; end++) {
+            // end 每次到单词末尾后的空格或串尾,开始反转单词
+            if (end == chars.length || chars[end] == ' ') {
+                reverse(chars, start, end - 1);
+                start = end + 1;
+            }
+        }
+
+        return new String(chars);
+    }
+
+    /**
+     * 反转字符串
+     *
+     * @param chars 字符串
+     * @param left  左闭
+     * @param right 右闭
+     */
+    private static void reverse(char[] chars, int left, int right) {
+        if (right >= chars.length) {
+            System.out.println("set a wrong right");
+            return;
+        }
+        while (left < right) {
+            char temp = chars[left];
+            chars[left] = chars[right];
+            chars[right] = temp;
+            left++;
+            right--;
+        }
+    }
 }
