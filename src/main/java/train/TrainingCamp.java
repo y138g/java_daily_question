@@ -44,6 +44,10 @@ public class TrainingCamp {
         System.out.println("---------------");
         String s2 = "]";
         System.out.println(isValid(s2));
+
+        System.out.println("---------------");
+        String s3 = "abbaca";
+        System.out.println(removeDuplicates(s3));
     }
 
 
@@ -770,10 +774,38 @@ public class TrainingCamp {
             }
             if (stack.isEmpty()) return false;
             String pop = stack.pop();
-            if (!pop.equals(String.valueOf(ch))) {
+            if (!pop.equals(java.lang.String.valueOf(ch))) {
                 return false;
             }
         }
         return stack.isEmpty();
+    }
+
+    /**
+     * 删除字符串中的所有相邻重复项 实现方法1：栈 leetcode 1047
+     * @param s  字符串
+     * @return 返回删除后的字符串
+     */
+    public static String removeDuplicates(String s) {
+        Deque<String> stack = new LinkedList<>();
+        StringBuilder sb = new StringBuilder();
+        char ch;
+        for (int i = 0; i < s.length(); i++) {
+            ch = s.charAt(i);
+            // 为空直接压入栈
+            if (stack.isEmpty() || !stack.peek().equals(String.valueOf(ch))) {
+                stack.push(String.valueOf(ch));
+                continue;
+            }
+            while (!stack.isEmpty() && stack.peek().equals(String.valueOf(ch))) {
+                stack.pop();
+            }
+        }
+        while(!stack.isEmpty()){
+            String pop = stack.pop();
+            sb.append(pop);
+        }
+        sb.reverse();
+        return sb.toString();
     }
 }
