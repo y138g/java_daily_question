@@ -40,6 +40,10 @@ public class TrainingCamp {
         System.out.println("---------------");
         String s1 = "  hello     world    ";
         System.out.println(reverseWords(s1));
+
+        System.out.println("---------------");
+        String s2 = "]";
+        System.out.println(isValid(s2));
     }
 
 
@@ -739,5 +743,37 @@ public class TrainingCamp {
             left++;
             right--;
         }
+    }
+
+    /**
+     * 有效的括号 实现方法1：栈 leetcode 20
+     *
+     * @param s 字符串
+     * @return 返回是否有效
+     */
+    public static boolean isValid(String s) {
+        Deque<String> stack = new LinkedList<>();
+        char ch;
+        for (int i = 0; i < s.length(); i++) {
+            ch = s.charAt(i);
+            if (ch == '(') {
+                stack.push(")");
+                continue;
+            }
+            if (ch == '[') {
+                stack.push("]");
+                continue;
+            }
+            if (ch == '{') {
+                stack.push("}");
+                continue;
+            }
+            if (stack.isEmpty()) return false;
+            String pop = stack.pop();
+            if (!pop.equals(String.valueOf(ch))) {
+                return false;
+            }
+        }
+        return stack.isEmpty();
     }
 }
