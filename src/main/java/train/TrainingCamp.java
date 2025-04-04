@@ -783,7 +783,8 @@ public class TrainingCamp {
 
     /**
      * 删除字符串中的所有相邻重复项 实现方法1：栈 leetcode 1047
-     * @param s  字符串
+     *
+     * @param s 字符串
      * @return 返回删除后的字符串
      */
     public static String removeDuplicates(String s) {
@@ -801,7 +802,7 @@ public class TrainingCamp {
                 stack.pop();
             }
         }
-        while(!stack.isEmpty()){
+        while (!stack.isEmpty()) {
             String pop = stack.pop();
             sb.append(pop);
         }
