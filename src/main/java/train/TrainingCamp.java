@@ -809,4 +809,37 @@ public class TrainingCamp {
         sb.reverse();
         return sb.toString();
     }
+
+    /**
+     * 逆波兰表达式求值 实现方法1：栈 leetcode 150
+     *
+     * @param tokens 表达式
+     * @return 返回结果
+     */
+    public int evalRPN(String[] tokens) {
+        Deque<Integer> stack = new LinkedList<>();
+        int n;
+        for (String token : tokens) {
+            if ("+".equals(token)) {
+                stack.push(stack.pop() + stack.pop());
+                continue;
+            }
+            if ("-".equals(token)) {
+                stack.push(-stack.pop() + stack.pop());
+                continue;
+            }
+            if ("*".equals(token)) {
+                stack.push(stack.pop() * stack.pop());
+                continue;
+            }
+            if ("/".equals(token)) {
+                Integer pop1 = stack.pop();
+                Integer pop2 = stack.pop();
+                stack.push(pop2 / pop1);
+                continue;
+            }
+            stack.push(Integer.parseInt(token));
+        }
+        return stack.pop();
+    }
 }
