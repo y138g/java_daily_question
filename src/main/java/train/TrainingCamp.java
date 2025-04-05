@@ -32,6 +32,22 @@ public class TrainingCamp {
 
         int[] nums = {-1, 0, 1, 2, -1, -4};
         System.out.println(threeSum(nums));
+
+        String s = "abcdefg";
+        int k = 2;
+        System.out.println(reverseStr(s, k));
+
+        System.out.println("---------------");
+        String s1 = "  hello     world    ";
+        System.out.println(reverseWords(s1));
+
+        System.out.println("---------------");
+        String s2 = "]";
+        System.out.println(isValid(s2));
+
+        System.out.println("---------------");
+        String s3 = "abbaca";
+        System.out.println(removeDuplicates(s3));
     }
 
 
@@ -631,6 +647,7 @@ public class TrainingCamp {
 
     /**
      * 反转字符串 实现方法1：双指针 leetcode 344
+     *
      * @param s 字符串
      */
     public void reverseString(char[] s) {
@@ -642,5 +659,154 @@ public class TrainingCamp {
             left++;
             right--;
         }
+    }
+
+    /**
+     * 反转字符串II 实现方法1：双指针 leetcode 541
+     *
+     * @param s 字符串
+     * @param k 每隔 k 个字符反转
+     * @return 返回反转后的字符串
+     */
+    public static String reverseStr(String s, int k) {
+        StringBuilder res = new StringBuilder();
+        int length = s.length();
+        int start = 0;
+        while (start < length) {
+            // 找到k处和2k处
+            StringBuilder temp = new StringBuilder();
+            // 与length进行判断，如果大于length了，那就将其置为length
+            int firstK = Math.min(start + k, length);
+            int secondK = Math.min(start + (2 * k), length);
+
+            //无论start所处位置，至少会反转一次
+            temp.append(s, start, firstK);
+            res.append(temp.reverse());
+
+            // 如果firstK到secondK之间有元素，这些元素直接放入res里即可。
+            if (firstK < secondK) { //此时剩余长度一定大于k。
+                res.append(s, firstK, secondK);
+            }
+            start += (2 * k);
+        }
+        return res.toString();
+    }
+
+    /**
+     * 反转字符串中的单词 实现方法1：双指针 leetcode 151
+     *
+     * @param s 字符串
+     * @return 返回反转后的字符串
+     */
+    public static String reverseWords(String s) {
+        int slow = 0;
+        char[] chars = s.toCharArray();
+        for (int fast = 0; fast < s.length(); fast++) {
+            if (chars[fast] != ' ') {
+                if (slow != 0 && chars[fast - 1] == ' ') {
+                    chars[slow] = ' ';
+                    slow++;
+                }
+                chars[slow] = chars[fast];
+                slow++;
+            }
+        }
+        chars = Arrays.copyOf(chars, slow);
+
+        reverse(chars, 0, chars.length - 1);
+
+        int start = 0;
+        //end <= s.length() 这里的 = ，是为了让 end 永远指向单词末尾后一个位置，这样 reverse 的实参更好设置
+        for (int end = 0; end <= chars.length; end++) {
+            // end 每次到单词末尾后的空格或串尾,开始反转单词
+            if (end == chars.length || chars[end] == ' ') {
+                reverse(chars, start, end - 1);
+                start = end + 1;
+            }
+        }
+
+        return new String(chars);
+    }
+
+    /**
+     * 反转字符串
+     *
+     * @param chars 字符串
+     * @param left  左闭
+     * @param right 右闭
+     */
+    private static void reverse(char[] chars, int left, int right) {
+        if (right >= chars.length) {
+            System.out.println("set a wrong right");
+            return;
+        }
+        while (left < right) {
+            char temp = chars[left];
+            chars[left] = chars[right];
+            chars[right] = temp;
+            left++;
+            right--;
+        }
+    }
+
+    /**
+     * 有效的括号 实现方法1：栈 leetcode 20
+     *
+     * @param s 字符串
+     * @return 返回是否有效
+     */
+    public static boolean isValid(String s) {
+        Deque<String> stack = new LinkedList<>();
+        char ch;
+        for (int i = 0; i < s.length(); i++) {
+            ch = s.charAt(i);
+            if (ch == '(') {
+                stack.push(")");
+                continue;
+            }
+            if (ch == '[') {
+                stack.push("]");
+                continue;
+            }
+            if (ch == '{') {
+                stack.push("}");
+                continue;
+            }
+            if (stack.isEmpty()) return false;
+            String pop = stack.pop();
+            if (!pop.equals(java.lang.String.valueOf(ch))) {
+                return false;
+            }
+        }
+        return stack.isEmpty();
+    }
+
+    /**
+     * 删除字符串中的所有相邻重复项 实现方法1：栈 leetcode 1047
+     *
+     * @param s 字符串
+     * @return 返回删除后的字符串
+     */
+    public static String removeDuplicates(String s) {
+        Deque<String> stack = new LinkedList<>();
+        StringBuilder sb = new StringBuilder();
+        char ch;
+        for (int i = 0; i < s.length(); i++) {
+            ch = s.charAt(i);
+            // 为空直接压入栈
+            if (stack.isEmpty() || !stack.peek().equals(String.valueOf(ch))) {
+                stack.push(String.valueOf(ch));
+                continue;
+            }
+            while (!stack.isEmpty() && stack.peek().equals(String.valueOf(ch))) {
+                stack.pop();
+            }
+        }
+        while (!stack.isEmpty()) {
+            String pop = stack.pop();
+            sb.append(pop);
+        }
+        sb.reverse();
+        return sb.toString();
     }
 }
