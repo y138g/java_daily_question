@@ -870,4 +870,29 @@ public class TrainingCamp {
         preorder(root.left, result);
         preorder(root.right, result);
     }
+
+    /**
+     * 二叉树的后序遍历 实现方法1：递归 leetcode 145
+     *
+     * @param root 二叉树
+     * @return 返回后序遍历结果
+     */
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        postorder(root, result);
+        return result;
+    }
+
+    /**
+     * 后序遍历递归
+     *
+     * @param root   二叉树中间节点
+     * @param result 返回值
+     */
+    private void postorder(TreeNode root, List<Integer> result) {
+        if (root == null) return;
+        postorder(root.left, result);
+        postorder(root.right, result);
+        result.add(root.val);
+    }
 }
