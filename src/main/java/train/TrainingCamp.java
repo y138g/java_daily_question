@@ -895,4 +895,29 @@ public class TrainingCamp {
         postorder(root.right, result);
         result.add(root.val);
     }
+
+    /**
+     * 二叉树的中序遍历 实现方法1：递归 leetcode 94
+     *
+     * @param root 二叉树
+     * @return 返回中序遍历结果
+     */
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        inorder(root, result);
+        return result;
+    }
+
+    /**
+     * 中序遍历递归
+     *
+     * @param root   二叉树中间节点
+     * @param result 返回值
+     */
+    private void inorder(TreeNode root, List<Integer> result) {
+        if (root == null) return;
+        inorder(root.left, result);
+        result.add(root.val);
+        inorder(root.right, result);
+    }
 }
