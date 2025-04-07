@@ -920,4 +920,29 @@ public class TrainingCamp {
         result.add(root.val);
         inorder(root.right, result);
     }
+
+    /**
+     * 翻转二叉树 实现方法1：递归 leetcode 226
+     *
+     * @param root 二叉树
+     * @return 返回翻转后的二叉树
+     */
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) return null;
+        invertTree(root.left);
+        invertTree(root.right);
+        invert(root);
+        return root;
+    }
+
+    /**
+     * 翻转二叉树
+     *
+     * @param root 二叉树中间节点
+     */
+    private void invert(TreeNode root) {
+        TreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+    }
 }
