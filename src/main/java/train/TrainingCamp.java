@@ -1,5 +1,7 @@
 package main.java.train;
 
+import main.java.tree.TreeNode;
+
 import java.util.*;
 
 import static java.lang.Integer.MAX_VALUE;
@@ -774,7 +776,7 @@ public class TrainingCamp {
             }
             if (stack.isEmpty()) return false;
             String pop = stack.pop();
-            if (!pop.equals(java.lang.String.valueOf(ch))) {
+            if (!pop.equals(String.valueOf(ch))) {
                 return false;
             }
         }
@@ -841,5 +843,31 @@ public class TrainingCamp {
             stack.push(Integer.parseInt(token));
         }
         return stack.pop();
+    }
+
+    /**
+     * 二叉树的前序遍历 实现方法1：递归 leetcode 144
+     *
+     * @param root 二叉树
+     * @return 返回前序遍历结果
+     */
+    public List<Integer> preorderTraversal(TreeNode root) {
+        // 定义数组接受返回值
+        List<Integer> result = new ArrayList<>();
+        preorder(root, result);
+        return result;
+    }
+
+    /**
+     * 前序遍历递归
+     *
+     * @param root   二叉树中间节点
+     * @param result 返回值
+     */
+    private void preorder(TreeNode root, List<Integer> result) {
+        if (root == null) return;
+        result.add(root.val);
+        preorder(root.left, result);
+        preorder(root.right, result);
     }
 }
