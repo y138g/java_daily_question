@@ -50,6 +50,16 @@ public class TrainingCamp {
         System.out.println("---------------");
         String s3 = "abbaca";
         System.out.println(removeDuplicates(s3));
+
+        System.out.println("---------------");
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(2);
+        root.left.left = new TreeNode(3);
+        root.left.right = new TreeNode(4);
+        root.right.left = new TreeNode(4);
+        root.right.right = new TreeNode(3);
+        System.out.println(isSymmetric(root));
     }
 
 
@@ -944,5 +954,33 @@ public class TrainingCamp {
         TreeNode temp = root.left;
         root.left = root.right;
         root.right = temp;
+    }
+
+    /**
+     * 对称二叉树 实现方法1：递归 leetcode 101
+     *
+     * @param root 二叉树
+     * @return 返回是否对称
+     */
+    public static boolean isSymmetric(TreeNode root) {
+        if (root == null) return true;
+        return symmetric(root.left, root.right);
+    }
+
+    /**
+     * 对称二叉树递归
+     *
+     * @param left  左子树
+     * @param right 右子树
+     * @return 返回是否对称
+     */
+    private static boolean symmetric(TreeNode left, TreeNode right) {
+        if (left == null && right != null) return false;
+        if (left != null && right == null) return false;
+        if (left == null && right == null) return true;
+        if (left.val != right.val) return false;
+        boolean symmetric1 = symmetric(left.left, right.right);
+        boolean symmetric2 = symmetric(left.right, right.left);
+        return symmetric1 && symmetric2;
     }
 }
