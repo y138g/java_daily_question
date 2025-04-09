@@ -983,4 +983,17 @@ public class TrainingCamp {
         boolean symmetric2 = symmetric(left.right, right.left);
         return symmetric1 && symmetric2;
     }
+
+    /**
+     * 二叉树的最大深度 实现方法1：后序遍历递归 leetcode 104
+     *
+     * @param root 二叉树
+     * @return 返回最大深度
+     */
+    public int maxDepth(TreeNode root) {
+        if (root == null) return 0;
+        int leftDepth = maxDepth(root.left);
+        int rightDepth = maxDepth(root.right);
+        return Math.max(leftDepth, rightDepth) + 1;
+    }
 }
