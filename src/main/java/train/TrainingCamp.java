@@ -1015,4 +1015,28 @@ public class TrainingCamp {
         }
         return 1 + Math.min(leftDepth, rightDepth);
     }
+
+    /**
+     * 平衡二叉树 实现方法1：后序遍历递归 leetcode 110
+     *
+     * @param root 二叉树
+     * @return 返回是否平衡
+     */
+    public boolean isBalanced(TreeNode root) {
+        return getHeight(root) != -1;
+    }
+
+    /**
+     * 递归返回高度差
+     *
+     * @param root 二叉树
+     * @return 返回高度差
+     */
+    private int getHeight(TreeNode root) {
+        if (root == null) return 0;
+        int leftHeight = getHeight(root.left);
+        int rightHeight = getHeight(root.right);
+        if ((leftHeight == -1 || rightHeight == -1) || (Math.abs(leftHeight - rightHeight) > 1)) return -1;
+        return 1 + Math.max(leftHeight, rightHeight);
+    }
 }
