@@ -1039,4 +1039,48 @@ public class TrainingCamp {
         if ((leftHeight == -1 || rightHeight == -1) || (Math.abs(leftHeight - rightHeight) > 1)) return -1;
         return 1 + Math.max(leftHeight, rightHeight);
     }
+
+    /**
+     * 二叉树的所有路径 实现方法1：前序遍历+递归+回溯 leetcode 257
+     *
+     * @param root 二叉树
+     * @return 返回所有路径
+     */
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> result = new ArrayList<>();
+        if (root == null) return result;
+        List<Integer> paths = new ArrayList<>();
+        traversal(root, paths, result);
+        return result;
+    }
+
+    /**
+     * 前序遍历+递归+回溯
+     *
+     * @param root   二叉树中间节点
+     * @param paths  路径
+     * @param result 返回值
+     */
+    private void traversal(TreeNode root, List<Integer> paths, List<String> result) {
+        paths.add(root.val);
+        if (root.left == null && root.right == null) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < paths.size() - 1; i++) {
+                sb.append(paths.get(i)).append("->");
+            }
+            sb.append(paths.get(paths.size() - 1));
+            result.add(sb.toString());
+            return;
+        }
+        if (root.left != null) {
+            traversal(root.left, paths, result);
+            // 回溯
+            paths.remove(paths.size() - 1);
+        }
+        if (root.right != null) {
+            traversal(root.right, paths, result);
+            // 回溯
+            paths.remove(paths.size() - 1);
+        }
+    }
 }
