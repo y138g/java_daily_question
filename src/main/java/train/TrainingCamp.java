@@ -1,5 +1,7 @@
 package main.java.train;
 
+import main.java.tree.TreeNode;
+
 import java.util.*;
 
 import static java.lang.Integer.MAX_VALUE;
@@ -48,6 +50,16 @@ public class TrainingCamp {
         System.out.println("---------------");
         String s3 = "abbaca";
         System.out.println(removeDuplicates(s3));
+
+        System.out.println("---------------");
+        TreeNode root = new TreeNode(1);
+        root.left = new TreeNode(2);
+        root.right = new TreeNode(2);
+        root.left.left = new TreeNode(3);
+        root.left.right = new TreeNode(4);
+        root.right.left = new TreeNode(4);
+        root.right.right = new TreeNode(3);
+        System.out.println(isSymmetric(root));
     }
 
 
@@ -774,7 +786,7 @@ public class TrainingCamp {
             }
             if (stack.isEmpty()) return false;
             String pop = stack.pop();
-            if (!pop.equals(java.lang.String.valueOf(ch))) {
+            if (!pop.equals(String.valueOf(ch))) {
                 return false;
             }
         }
@@ -808,5 +820,267 @@ public class TrainingCamp {
         }
         sb.reverse();
         return sb.toString();
+    }
+
+    /**
+     * 逆波兰表达式求值 实现方法1：栈 leetcode 150
+     *
+     * @param tokens 表达式
+     * @return 返回结果
+     */
+    public int evalRPN(String[] tokens) {
+        Deque<Integer> stack = new LinkedList<>();
+        int n;
+        for (String token : tokens) {
+            if ("+".equals(token)) {
+                stack.push(stack.pop() + stack.pop());
+                continue;
+            }
+            if ("-".equals(token)) {
+                stack.push(-stack.pop() + stack.pop());
+                continue;
+            }
+            if ("*".equals(token)) {
+                stack.push(stack.pop() * stack.pop());
+                continue;
+            }
+            if ("/".equals(token)) {
+                Integer pop1 = stack.pop();
+                Integer pop2 = stack.pop();
+                stack.push(pop2 / pop1);
+                continue;
+            }
+            stack.push(Integer.parseInt(token));
+        }
+        return stack.pop();
+    }
+
+    /**
+     * 二叉树的前序遍历 实现方法1：递归 leetcode 144
+     *
+     * @param root 二叉树
+     * @return 返回前序遍历结果
+     */
+    public List<Integer> preorderTraversal(TreeNode root) {
+        // 定义数组接受返回值
+        List<Integer> result = new ArrayList<>();
+        preorder(root, result);
+        return result;
+    }
+
+    /**
+     * 前序遍历递归
+     *
+     * @param root   二叉树中间节点
+     * @param result 返回值
+     */
+    private void preorder(TreeNode root, List<Integer> result) {
+        if (root == null) return;
+        result.add(root.val);
+        preorder(root.left, result);
+        preorder(root.right, result);
+    }
+
+    /**
+     * 二叉树的后序遍历 实现方法1：递归 leetcode 145
+     *
+     * @param root 二叉树
+     * @return 返回后序遍历结果
+     */
+    public List<Integer> postorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        postorder(root, result);
+        return result;
+    }
+
+    /**
+     * 后序遍历递归
+     *
+     * @param root   二叉树中间节点
+     * @param result 返回值
+     */
+    private void postorder(TreeNode root, List<Integer> result) {
+        if (root == null) return;
+        postorder(root.left, result);
+        postorder(root.right, result);
+        result.add(root.val);
+    }
+
+    /**
+     * 二叉树的中序遍历 实现方法1：递归 leetcode 94
+     *
+     * @param root 二叉树
+     * @return 返回中序遍历结果
+     */
+    public List<Integer> inorderTraversal(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        inorder(root, result);
+        return result;
+    }
+
+    /**
+     * 中序遍历递归
+     *
+     * @param root   二叉树中间节点
+     * @param result 返回值
+     */
+    private void inorder(TreeNode root, List<Integer> result) {
+        if (root == null) return;
+        inorder(root.left, result);
+        result.add(root.val);
+        inorder(root.right, result);
+    }
+
+    /**
+     * 翻转二叉树 实现方法1：递归 leetcode 226
+     *
+     * @param root 二叉树
+     * @return 返回翻转后的二叉树
+     */
+    public TreeNode invertTree(TreeNode root) {
+        if (root == null) return null;
+        invertTree(root.left);
+        invertTree(root.right);
+        invert(root);
+        return root;
+    }
+
+    /**
+     * 翻转二叉树
+     *
+     * @param root 二叉树中间节点
+     */
+    private void invert(TreeNode root) {
+        TreeNode temp = root.left;
+        root.left = root.right;
+        root.right = temp;
+    }
+
+    /**
+     * 对称二叉树 实现方法1：递归 leetcode 101
+     *
+     * @param root 二叉树
+     * @return 返回是否对称
+     */
+    public static boolean isSymmetric(TreeNode root) {
+        if (root == null) return true;
+        return symmetric(root.left, root.right);
+    }
+
+    /**
+     * 对称二叉树递归
+     *
+     * @param left  左子树
+     * @param right 右子树
+     * @return 返回是否对称
+     */
+    private static boolean symmetric(TreeNode left, TreeNode right) {
+        if (left == null && right != null) return false;
+        if (left != null && right == null) return false;
+        if (left == null && right == null) return true;
+        if (left.val != right.val) return false;
+        boolean symmetric1 = symmetric(left.left, right.right);
+        boolean symmetric2 = symmetric(left.right, right.left);
+        return symmetric1 && symmetric2;
+    }
+
+    /**
+     * 二叉树的最大深度 实现方法1：后序遍历递归 leetcode 104
+     *
+     * @param root 二叉树
+     * @return 返回最大深度
+     */
+    public int maxDepth(TreeNode root) {
+        if (root == null) return 0;
+        int leftDepth = maxDepth(root.left);
+        int rightDepth = maxDepth(root.right);
+        return Math.max(leftDepth, rightDepth) + 1;
+    }
+
+    /**
+     * 二叉树的最小深度 实现方法1：后序遍历递归 leetcode 111
+     *
+     * @param root 二叉树
+     * @return 返回最小深度
+     */
+    public int minDepth(TreeNode root) {
+        if (root == null) return 0;
+        int leftDepth = minDepth(root.left);
+        int rightDepth = minDepth(root.right);
+        if (root.left == null && root.right != null) {
+            return 1 + rightDepth;
+        }
+        if (root.left != null && root.right == null) {
+            return 1 + leftDepth;
+        }
+        return 1 + Math.min(leftDepth, rightDepth);
+    }
+
+    /**
+     * 平衡二叉树 实现方法1：后序遍历递归 leetcode 110
+     *
+     * @param root 二叉树
+     * @return 返回是否平衡
+     */
+    public boolean isBalanced(TreeNode root) {
+        return getHeight(root) != -1;
+    }
+
+    /**
+     * 递归返回高度差
+     *
+     * @param root 二叉树
+     * @return 返回高度差
+     */
+    private int getHeight(TreeNode root) {
+        if (root == null) return 0;
+        int leftHeight = getHeight(root.left);
+        int rightHeight = getHeight(root.right);
+        if ((leftHeight == -1 || rightHeight == -1) || (Math.abs(leftHeight - rightHeight) > 1)) return -1;
+        return 1 + Math.max(leftHeight, rightHeight);
+    }
+
+    /**
+     * 二叉树的所有路径 实现方法1：前序遍历+递归+回溯 leetcode 257
+     *
+     * @param root 二叉树
+     * @return 返回所有路径
+     */
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> result = new ArrayList<>();
+        if (root == null) return result;
+        List<Integer> paths = new ArrayList<>();
+        traversal(root, paths, result);
+        return result;
+    }
+
+    /**
+     * 前序遍历+递归+回溯
+     *
+     * @param root   二叉树中间节点
+     * @param paths  路径
+     * @param result 返回值
+     */
+    private void traversal(TreeNode root, List<Integer> paths, List<String> result) {
+        paths.add(root.val);
+        if (root.left == null && root.right == null) {
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < paths.size() - 1; i++) {
+                sb.append(paths.get(i)).append("->");
+            }
+            sb.append(paths.get(paths.size() - 1));
+            result.add(sb.toString());
+            return;
+        }
+        if (root.left != null) {
+            traversal(root.left, paths, result);
+            // 回溯
+            paths.remove(paths.size() - 1);
+        }
+        if (root.right != null) {
+            traversal(root.right, paths, result);
+            // 回溯
+            paths.remove(paths.size() - 1);
+        }
     }
 }
