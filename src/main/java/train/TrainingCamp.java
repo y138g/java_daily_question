@@ -60,6 +60,15 @@ public class TrainingCamp {
         root.right.left = new TreeNode(4);
         root.right.right = new TreeNode(3);
         System.out.println(isSymmetric(root));
+
+        //root = [3,9,20,null,null,15,7]
+        System.out.println("---------------");
+        TreeNode root2 = new TreeNode(3);
+        root2.left = new TreeNode(9);
+        root2.right = new TreeNode(20);
+        root2.right.left = new TreeNode(15);
+        root2.right.right = new TreeNode(7);
+        System.out.println(sumOfLeftLeaves(root2));
     }
 
 
@@ -1082,5 +1091,24 @@ public class TrainingCamp {
             // 回溯
             paths.remove(paths.size() - 1);
         }
+    }
+
+    /**
+     * 左叶子之和 实现方法1：前序遍历+递归 leetcode 404
+     *
+     * @param root 二叉树
+     * @return 返回左叶子之和
+     */
+    public static int sumOfLeftLeaves(TreeNode root) {
+        if (root == null) return 0;
+        // 左节点
+        int leftValue = sumOfLeftLeaves(root.left);
+        // 右节点
+        int rightValue = sumOfLeftLeaves(root.right);
+        int midValue = 0;
+        if (root.left != null && root.left.left == null && root.left.right == null) {
+            midValue = root.left.val;
+        }
+        return midValue + leftValue + rightValue;
     }
 }
