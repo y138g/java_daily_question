@@ -69,6 +69,15 @@ public class TrainingCamp {
         root2.right.left = new TreeNode(15);
         root2.right.right = new TreeNode(7);
         System.out.println(sumOfLeftLeaves(root2));
+
+        System.out.println("---------------");
+        TreeNode root3 = new TreeNode(1);
+        root3.left = new TreeNode(2);
+        root3.right = new TreeNode(2);
+        root3.left.left = new TreeNode(3);
+        root3.left.right = new TreeNode(4);
+        root3.right.left = new TreeNode(4);
+        System.out.println(countNodes(root3));
     }
 
 
@@ -1110,5 +1119,16 @@ public class TrainingCamp {
             midValue = root.left.val;
         }
         return midValue + leftValue + rightValue;
+    }
+
+    /**
+     * 完全二叉树的节点个数 实现方法1：递归 leetcode 222
+     *
+     * @param root 二叉树
+     * @return 返回节点个数
+     */
+    public static int countNodes(TreeNode root) {
+        if (root == null) return 0;
+        return 1 + countNodes(root.left) + countNodes(root.right);
     }
 }
