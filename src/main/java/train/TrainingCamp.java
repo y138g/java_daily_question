@@ -996,4 +996,23 @@ public class TrainingCamp {
         int rightDepth = maxDepth(root.right);
         return Math.max(leftDepth, rightDepth) + 1;
     }
+
+    /**
+     * 二叉树的最小深度 实现方法1：后序遍历递归 leetcode 111
+     *
+     * @param root 二叉树
+     * @return 返回最小深度
+     */
+    public int minDepth(TreeNode root) {
+        if (root == null) return 0;
+        int leftDepth = minDepth(root.left);
+        int rightDepth = minDepth(root.right);
+        if (root.left == null && root.right != null) {
+            return 1 + rightDepth;
+        }
+        if (root.left != null && root.right == null) {
+            return 1 + leftDepth;
+        }
+        return 1 + Math.min(leftDepth, rightDepth);
+    }
 }
