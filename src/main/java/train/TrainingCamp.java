@@ -1131,4 +1131,41 @@ public class TrainingCamp {
         if (root == null) return 0;
         return 1 + countNodes(root.left) + countNodes(root.right);
     }
+
+    /**
+     * 最大二叉树 实现方法1：递归 leetcode 654
+     *
+     * @param nums 目标数组
+     * @return 二叉树
+     */
+    public TreeNode constructMaximumBinaryTreeCase1(int[] nums) {
+        return constructMaximumBinaryTree(nums, 0, nums.length);
+    }
+
+    /**
+     * 构造二叉树：前序遍历
+     *
+     * @param nums       目标数组
+     * @param liftIndex  左指针
+     * @param rightIndex 右指针
+     * @return 二叉树
+     */
+    private TreeNode constructMaximumBinaryTree(int[] nums, int liftIndex, int rightIndex) {
+        // 数组没有元素
+        if (rightIndex - liftIndex < 1) return null;
+        // 数组只有一个元素
+        if (rightIndex - liftIndex == 1) return new TreeNode(nums[liftIndex]);
+        int maxIndex = liftIndex;
+        int maxVal = nums[maxIndex];
+        for (int i = liftIndex + 1; i < rightIndex; i++) {
+            if (nums[i] > maxVal) {
+                maxVal = nums[i];
+                maxIndex = i;
+            }
+        }
+        TreeNode root = new TreeNode(maxVal);
+        root.left = constructMaximumBinaryTree(nums, liftIndex, maxIndex);
+        root.right = constructMaximumBinaryTree(nums, maxIndex + 1, rightIndex);
+        return root;
+    }
 }
