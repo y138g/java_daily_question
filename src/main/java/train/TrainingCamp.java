@@ -3,6 +3,7 @@ package main.java.train;
 import main.java.tree.TreeNode;
 
 import java.util.*;
+import java.util.stream.IntStream;
 
 import static java.lang.Integer.MAX_VALUE;
 
@@ -1197,5 +1198,54 @@ public class TrainingCamp {
         if (root.val == val) return root;
         if (root.val > val) return searchBST(root.left, val);
         return searchBST(root.right, val);
+    }
+
+    /**
+     * 验证二叉搜索树 实现方法1：中序遍历 leetcode 98
+     *
+     * @param root 二叉树
+     * @return 是否是二叉搜索树
+     */
+    public boolean isValidBSTCase1(TreeNode root) {
+        List<Integer> result = new ArrayList<>();
+        inorderBST(root, result);
+        return IntStream.range(1, result.size()).noneMatch(i -> result.get(i) <= result.get(i - 1));
+    }
+
+    /**
+     * 中序遍历
+     *
+     * @param root   二叉树
+     * @param result 结果集
+     */
+    private void inorderBST(TreeNode root, List<Integer> result) {
+        if (root == null) return;
+        inorderBST(root.left, result);
+        result.add(root.val);
+        inorderBST(root.right, result);
+    }
+
+    /**
+     * 验证二叉搜索树 实现方法2：递归 leetcode 98
+     *
+     * @param root 二叉树
+     * @return 是否是二叉搜索树
+     */
+    public boolean isValidBSTCase2(TreeNode root) {
+        return validBST(root, Long.MIN_VALUE, Long.MAX_VALUE);
+    }
+
+    /**
+     * 递归验证
+     *
+     * @param root 二叉树
+     * @param min  最小值
+     * @param max  最大值
+     * @return 子树是否为二叉搜索树
+     */
+    private boolean validBST(TreeNode root, long min, long max) {
+        if (root == null) return true;
+        if (root.val <= min || root.val >= max) return false;
+        return validBST(root.left, min, root.val) && validBST(root.right, root.val, max);
     }
 }
