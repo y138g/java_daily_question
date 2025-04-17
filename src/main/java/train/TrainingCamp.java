@@ -104,6 +104,20 @@ public class TrainingCamp {
         root5.right.right = new TreeNode(14);
         root5.right.left = new TreeNode(10);
         System.out.println(lowestCommonAncestorToBalanceTree(root5, root5.left.left, root5.left.right.right).val);
+
+        System.out.println("---------------");
+        TreeNode root6 = new TreeNode(8);
+        root6.left = new TreeNode(4);
+        root6.right = new TreeNode(10);
+        root6.left.left = new TreeNode(2);
+        root6.left.right = new TreeNode(6);
+        root6.left.right.left = new TreeNode(5);
+        root6.left.right.right = new TreeNode(7);
+        root6.left.left.left = new TreeNode(1);
+        root6.left.left.right = new TreeNode(3);
+        root6.right.left = new TreeNode(9);
+        root6.right.right = new TreeNode(11);
+        trimBST(root6, 3, 9);
     }
 
 
@@ -1341,6 +1355,23 @@ public class TrainingCamp {
         }
         if (root.val > key) root.left = deleteNode(root.left, key);
         if (root.val < key) root.right = deleteNode(root.right, key);
+        return root;
+    }
+
+    /**
+     * 修剪二叉搜索树 实现方法1:递归 leetcode 669
+     *
+     * @param root 二叉搜索树
+     * @param low  修剪范围下限
+     * @param high 修剪范围上限
+     * @return 修剪后的二叉搜索树
+     */
+    public static TreeNode trimBST(TreeNode root, int low, int high) {
+        if (root == null) return null;
+        if (root.val < low) return trimBST(root.right, low, high);
+        if (root.val > high) return trimBST(root.left, low, high);
+        root.left = trimBST(root.left, low, high);
+        root.right = trimBST(root.right, low, high);
         return root;
     }
 }
