@@ -1306,4 +1306,18 @@ public class TrainingCamp {
         if (root.val < p.val && root.val < q.val) return lowestCommonAncestorToBalanceTree(root.right, p, q);
         return root;
     }
+
+    /**
+     * 二叉搜索树中的插入操作 实现方法1：递归 leetcode 701
+     *
+     * @param root 二叉搜索树
+     * @param val  要插入的值
+     * @return 插入后的二叉搜索树
+     */
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        if (root == null) return new TreeNode(val);
+        if (root.val > val) root.left = insertIntoBST(root.left, val);
+        if (root.val < val) root.right = insertIntoBST(root.right, val);
+        return root;
+    }
 }
