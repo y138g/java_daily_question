@@ -1248,4 +1248,23 @@ public class TrainingCamp {
         if (root.val <= min || root.val >= max) return false;
         return validBST(root.left, min, root.val) && validBST(root.right, root.val, max);
     }
+
+    /**
+     * 二叉树的最近公共祖先 实现方法1：后序遍历+递归 leetcode 236
+     *
+     * @param root 二叉树
+     * @param p    节点p
+     * @param q    节点q
+     * @return 最近公共祖先节点
+     */
+    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q) return root;
+        // 后序遍历 左->中->右
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if (left == null && right == null) return null;
+        else if (left != null && right == null) return left;
+        else if (left == null && right != null) return right;
+        else return root;
+    }
 }
