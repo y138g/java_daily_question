@@ -79,6 +79,31 @@ public class TrainingCamp {
         root3.left.right = new TreeNode(4);
         root3.right.left = new TreeNode(4);
         System.out.println(countNodes(root3));
+
+        System.out.println("---------------");
+        // root = [3,5,1,6,2,0,8,null,null,7,4], p = 6, q = 7, 预期：5
+        TreeNode root4 = new TreeNode(3);
+        root4.left = new TreeNode(5);
+        root4.right = new TreeNode(1);
+        root4.left.left = new TreeNode(6);
+        root4.left.right = new TreeNode(2);
+        root4.right.left = new TreeNode(0);
+        root4.right.right = new TreeNode(8);
+        root4.left.right.left = new TreeNode(7);
+        root4.left.right.right = new TreeNode(4);
+        System.out.println(lowestCommonAncestor(root4, root4.left.left, root4.left.right.left).val);
+
+        System.out.println("---------------");
+        TreeNode root5 = new TreeNode(8);
+        root5.left = new TreeNode(3);
+        root5.right = new TreeNode(10);
+        root5.left.left = new TreeNode(1);
+        root5.left.right = new TreeNode(6);
+        root5.left.right.left = new TreeNode(4);
+        root5.left.right.right = new TreeNode(7);
+        root5.right.right = new TreeNode(14);
+        root5.right.left = new TreeNode(10);
+        System.out.println(lowestCommonAncestorToBalanceTree(root5, root5.left.left, root5.left.right.right).val);
     }
 
 
@@ -1257,14 +1282,28 @@ public class TrainingCamp {
      * @param q    节点q
      * @return 最近公共祖先节点
      */
-    public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+    public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
         if (root == null || root == p || root == q) return root;
-        // 后序遍历 左->中->右
+        // 后序遍历 左->右->中
         TreeNode left = lowestCommonAncestor(root.left, p, q);
         TreeNode right = lowestCommonAncestor(root.right, p, q);
         if (left == null && right == null) return null;
         else if (left != null && right == null) return left;
         else if (left == null && right != null) return right;
         else return root;
+    }
+
+    /**
+     * 二叉搜索树的最近公共祖先 实现方法1：递归 leetcode 235
+     *
+     * @param root 二叉搜索树
+     * @param p    节点p
+     * @param q    节点q
+     * @return 最近公共祖先节点
+     */
+    public static TreeNode lowestCommonAncestorToBalanceTree(TreeNode root, TreeNode p, TreeNode q) {
+        if (root.val > p.val && root.val > q.val) return lowestCommonAncestorToBalanceTree(root.left, p, q);
+        if (root.val < p.val && root.val < q.val) return lowestCommonAncestorToBalanceTree(root.right, p, q);
+        return root;
     }
 }
