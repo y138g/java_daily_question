@@ -79,15 +79,6 @@ public class TrainingCamp {
         root3.left.right = new TreeNode(4);
         root3.right.left = new TreeNode(4);
         System.out.println(countNodes(root3));
-
-        System.out.println("---------------");
-        TreeNode root4 = new TreeNode(4);
-        root4.left = new TreeNode(2);
-        root4.right = new TreeNode(7);
-        root4.left.left = new TreeNode(1);
-        root4.left.right = new TreeNode(3);
-        root4.right.left = new TreeNode(6);
-        System.out.println(getMinimumDifference(root4));
     }
 
 
@@ -1256,33 +1247,5 @@ public class TrainingCamp {
         if (root == null) return true;
         if (root.val <= min || root.val >= max) return false;
         return validBST(root.left, min, root.val) && validBST(root.right, root.val, max);
-    }
-
-    TreeNode pre;
-    int result = Integer.MAX_VALUE;
-
-    /**
-     * 二叉搜索树的最小绝对差 实现方法1:递归 leetcode 530
-     *
-     * @param root 二叉树
-     * @return 最小绝对差
-     */
-    public int getMinimumDifference(TreeNode root) {
-        if (root == null) return 0;
-        traversal(root);
-        return result;
-    }
-
-    /**
-     * 递归遍历二叉树（中序）
-     *
-     * @param root 二叉树
-     */
-    private void traversal(TreeNode root) {
-        if (root == null) return;
-        traversal(root.left);
-        if (pre != null) result = Math.min(result, root.val - pre.val);
-        pre = root;
-        traversal(root.right);
     }
 }
