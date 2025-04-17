@@ -1320,4 +1320,27 @@ public class TrainingCamp {
         if (root.val < val) root.right = insertIntoBST(root.right, val);
         return root;
     }
+
+    /**
+     * 二叉搜索树中的删除操作 实现方法1：递归 leetcode 450
+     *
+     * @param root 二叉搜索树
+     * @param key  要删除的值
+     * @return 删除后的二叉搜索树
+     */
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) return null;
+        if (root.val == key) {
+            if (root.left == null) return root.right;
+            if (root.right == null) return root.left;
+            TreeNode cur = root.right;
+            while (cur.left != null) cur = cur.left;
+            cur.left = root.left;
+            root = root.right;
+            return root;
+        }
+        if (root.val > key) root.left = deleteNode(root.left, key);
+        if (root.val < key) root.right = deleteNode(root.right, key);
+        return root;
+    }
 }
