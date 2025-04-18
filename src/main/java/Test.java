@@ -1,9 +1,6 @@
 package main.java;
 
-import main.java.backtracking.LeetCode17;
-import main.java.backtracking.LeetCode216;
-import main.java.backtracking.LeetCode77Case1;
-import main.java.backtracking.LeetCode77Case2;
+import main.java.backtracking.*;
 
 public class Test {
 
@@ -21,5 +18,9 @@ public class Test {
         System.out.println("------------------");
         LeetCode17 leetCode17 = new LeetCode17();
         System.out.println(leetCode17.letterCombinations("23"));
+
+        System.out.println("------------------");
+        LeetCode39 leetCode39 = new LeetCode39();
+        System.out.println(leetCode39.combinationSum(new int[]{2, 3, 6, 7}, 7));
     }
 }
