@@ -11,11 +11,25 @@ public class LeetCode77Case1 {
     // 路径
     LinkedList<Integer> path = new LinkedList<>();
 
+    /**
+     * 组合 实现方式1：回溯算法 leetcode 77
+     *
+     * @param n 范围 [1, n]
+     * @param k 组合内元素个数
+     * @return 返回组合集
+     */
     public List<List<Integer>> combine(int n, int k) {
         backtracking(n, k, 1);
         return result;
     }
 
+    /**
+     * 回溯算法
+     *
+     * @param n          范围 [1, n]
+     * @param k          组合内元素个数
+     * @param startIndex 起始位置
+     */
     private void backtracking(int n, int k, int startIndex) {
         if (path.size() == k) {
             result.add(new ArrayList<>(path));
