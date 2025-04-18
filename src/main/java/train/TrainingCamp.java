@@ -79,6 +79,45 @@ public class TrainingCamp {
         root3.left.right = new TreeNode(4);
         root3.right.left = new TreeNode(4);
         System.out.println(countNodes(root3));
+
+        System.out.println("---------------");
+        // root = [3,5,1,6,2,0,8,null,null,7,4], p = 6, q = 7, 预期：5
+        TreeNode root4 = new TreeNode(3);
+        root4.left = new TreeNode(5);
+        root4.right = new TreeNode(1);
+        root4.left.left = new TreeNode(6);
+        root4.left.right = new TreeNode(2);
+        root4.right.left = new TreeNode(0);
+        root4.right.right = new TreeNode(8);
+        root4.left.right.left = new TreeNode(7);
+        root4.left.right.right = new TreeNode(4);
+        System.out.println(lowestCommonAncestor(root4, root4.left.left, root4.left.right.left).val);
+
+        System.out.println("---------------");
+        TreeNode root5 = new TreeNode(8);
+        root5.left = new TreeNode(3);
+        root5.right = new TreeNode(10);
+        root5.left.left = new TreeNode(1);
+        root5.left.right = new TreeNode(6);
+        root5.left.right.left = new TreeNode(4);
+        root5.left.right.right = new TreeNode(7);
+        root5.right.right = new TreeNode(14);
+        root5.right.left = new TreeNode(10);
+        System.out.println(lowestCommonAncestorToBalanceTree(root5, root5.left.left, root5.left.right.right).val);
+
+        System.out.println("---------------");
+        TreeNode root6 = new TreeNode(8);
+        root6.left = new TreeNode(4);
+        root6.right = new TreeNode(10);
+        root6.left.left = new TreeNode(2);
+        root6.left.right = new TreeNode(6);
+        root6.left.right.left = new TreeNode(5);
+        root6.left.right.right = new TreeNode(7);
+        root6.left.left.left = new TreeNode(1);
+        root6.left.left.right = new TreeNode(3);
+        root6.right.left = new TreeNode(9);
+        root6.right.right = new TreeNode(11);
+        trimBST(root6, 3, 9);
     }
 
 
@@ -1247,5 +1286,120 @@ public class TrainingCamp {
         if (root == null) return true;
         if (root.val <= min || root.val >= max) return false;
         return validBST(root.left, min, root.val) && validBST(root.right, root.val, max);
+    }
+
+    /**
+     * 二叉树的最近公共祖先 实现方法1：后序遍历+递归 leetcode 236
+     *
+     * @param root 二叉树
+     * @param p    节点p
+     * @param q    节点q
+     * @return 最近公共祖先节点
+     */
+    public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+        if (root == null || root == p || root == q) return root;
+        // 后序遍历 左->右->中
+        TreeNode left = lowestCommonAncestor(root.left, p, q);
+        TreeNode right = lowestCommonAncestor(root.right, p, q);
+        if (left == null && right == null) return null;
+        else if (left != null && right == null) return left;
+        else if (left == null && right != null) return right;
+        else return root;
+    }
+
+    /**
+     * 二叉搜索树的最近公共祖先 实现方法1：递归 leetcode 235
+     *
+     * @param root 二叉搜索树
+     * @param p    节点p
+     * @param q    节点q
+     * @return 最近公共祖先节点
+     */
+    public static TreeNode lowestCommonAncestorToBalanceTree(TreeNode root, TreeNode p, TreeNode q) {
+        if (root.val > p.val && root.val > q.val) return lowestCommonAncestorToBalanceTree(root.left, p, q);
+        if (root.val < p.val && root.val < q.val) return lowestCommonAncestorToBalanceTree(root.right, p, q);
+        return root;
+    }
+
+    /**
+     * 二叉搜索树中的插入操作 实现方法1：递归 leetcode 701
+     *
+     * @param root 二叉搜索树
+     * @param val  要插入的值
+     * @return 插入后的二叉搜索树
+     */
+    public TreeNode insertIntoBST(TreeNode root, int val) {
+        if (root == null) return new TreeNode(val);
+        if (root.val > val) root.left = insertIntoBST(root.left, val);
+        if (root.val < val) root.right = insertIntoBST(root.right, val);
+        return root;
+    }
+
+    /**
+     * 二叉搜索树中的删除操作 实现方法1：递归 leetcode 450
+     *
+     * @param root 二叉搜索树
+     * @param key  要删除的值
+     * @return 删除后的二叉搜索树
+     */
+    public TreeNode deleteNode(TreeNode root, int key) {
+        if (root == null) return null;
+        if (root.val == key) {
+            if (root.left == null) return root.right;
+            if (root.right == null) return root.left;
+            TreeNode cur = root.right;
+            while (cur.left != null) cur = cur.left;
+            cur.left = root.left;
+            root = root.right;
+            return root;
+        }
+        if (root.val > key) root.left = deleteNode(root.left, key);
+        if (root.val < key) root.right = deleteNode(root.right, key);
+        return root;
+    }
+
+    /**
+     * 修剪二叉搜索树 实现方法1:递归 leetcode 669
+     *
+     * @param root 二叉搜索树
+     * @param low  修剪范围下限
+     * @param high 修剪范围上限
+     * @return 修剪后的二叉搜索树
+     */
+    public static TreeNode trimBST(TreeNode root, int low, int high) {
+        if (root == null) return null;
+        if (root.val < low) return trimBST(root.right, low, high);
+        if (root.val > high) return trimBST(root.left, low, high);
+        root.left = trimBST(root.left, low, high);
+        root.right = trimBST(root.right, low, high);
+        return root;
+    }
+
+    /**
+     * 将有序数组转换为二叉搜索树 实现方式1：递归 leetcode 108
+     *
+     * @param nums 有序数组
+     * @return 二叉搜索树
+     */
+    public TreeNode sortedArrayToBST(int[] nums) {
+        // 将有序数组转换为二叉搜索树
+        return buildTree(nums, 0, nums.length - 1);
+    }
+
+    /**
+     * 构造二叉搜索树
+     *
+     * @param nums 有序数组
+     * @param low  下限
+     * @param high 上限
+     * @return 二叉搜索树
+     */
+    private TreeNode buildTree(int[] nums, int low, int high) {
+        if (low > high) return null;
+        int mid = low + (high - low) / 2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = buildTree(nums, low, mid - 1);
+        root.right = buildTree(nums, mid + 1, high);
+        return root;
     }
 }
