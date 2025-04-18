@@ -1374,4 +1374,32 @@ public class TrainingCamp {
         root.right = trimBST(root.right, low, high);
         return root;
     }
+
+    /**
+     * 将有序数组转换为二叉搜索树 实现方式1：递归 leetcode 108
+     *
+     * @param nums 有序数组
+     * @return 二叉搜索树
+     */
+    public TreeNode sortedArrayToBST(int[] nums) {
+        // 将有序数组转换为二叉搜索树
+        return buildTree(nums, 0, nums.length - 1);
+    }
+
+    /**
+     * 构造二叉搜索树
+     *
+     * @param nums 有序数组
+     * @param low  下限
+     * @param high 上限
+     * @return 二叉搜索树
+     */
+    private TreeNode buildTree(int[] nums, int low, int high) {
+        if (low > high) return null;
+        int mid = low + (high - low) / 2;
+        TreeNode root = new TreeNode(nums[mid]);
+        root.left = buildTree(nums, low, mid - 1);
+        root.right = buildTree(nums, mid + 1, high);
+        return root;
+    }
 }
