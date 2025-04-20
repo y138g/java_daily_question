@@ -34,5 +34,9 @@ public class Test {
         System.out.println("------------------");
         LeetCode93 leetCode93 = new LeetCode93();
         System.out.println(leetCode93.restoreIpAddresses("25525511135"));
+
+        System.out.println("------------------");
+        LeetCode78 leetCode78 = new LeetCode78();
+        System.out.println(leetCode78.subsets(new int[]{1, 2, 3}));
     }
 }
