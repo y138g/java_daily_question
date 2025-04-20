@@ -42,5 +42,11 @@ public class Test {
         System.out.println("------------------");
         LeetCode90 leetCode90 = new LeetCode90();
         System.out.println(leetCode90.subsetsWithDup(new int[]{1, 2, 2}));
+
+        System.out.println("------------------");
+        LeetCode491 leetCode491 = new LeetCode491();
+        //[84,-48,-33,-34,-52,72,75,-12,72,-45]
+//        System.out.println(leetCode491.findSubsequences(new int[]{84, -48, -33, -34, -52, 72, 75, -12, 72, -45}));
+        System.out.println(leetCode491.findSubsequences(new int[]{4, 6, 7, 7}));
     }
 }
