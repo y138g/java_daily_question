@@ -51,5 +51,9 @@ public class Test {
         LeetCode46 leetCode46 = new LeetCode46();
         System.out.println(leetCode46.permute(new int[]{1, 2, 3}));
 
+        System.out.println("------------------");
+        LeetCode47 leetCode47 = new LeetCode47();
+        System.out.println(leetCode47.permuteUnique(new int[]{3, 3, 0, 3}));
+
     }
 }
