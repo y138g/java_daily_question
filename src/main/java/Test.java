@@ -45,8 +45,11 @@ public class Test {
 
         System.out.println("------------------");
         LeetCode491 leetCode491 = new LeetCode491();
-        //[84,-48,-33,-34,-52,72,75,-12,72,-45]
-//        System.out.println(leetCode491.findSubsequences(new int[]{84, -48, -33, -34, -52, 72, 75, -12, 72, -45}));
         System.out.println(leetCode491.findSubsequences(new int[]{4, 6, 7, 7}));
+
+        System.out.println("------------------");
+        LeetCode46 leetCode46 = new LeetCode46();
+        System.out.println(leetCode46.permute(new int[]{1, 2, 3}));
+
     }
 }
