@@ -38,5 +38,9 @@ public class Test {
         System.out.println("------------------");
         LeetCode78 leetCode78 = new LeetCode78();
         System.out.println(leetCode78.subsets(new int[]{1, 2, 3}));
+
+        System.out.println("------------------");
+        LeetCode90 leetCode90 = new LeetCode90();
+        System.out.println(leetCode90.subsetsWithDup(new int[]{1, 2, 2}));
     }
 }
