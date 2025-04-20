@@ -22,5 +22,13 @@ public class Test {
         System.out.println("------------------");
         LeetCode39 leetCode39 = new LeetCode39();
         System.out.println(leetCode39.combinationSum(new int[]{2, 3, 6, 7}, 7));
+
+        System.out.println("------------------");
+        LeetCode40 leetCode40 = new LeetCode40();
+        System.out.println(leetCode40.combinationSum2(new int[]{10, 1, 2, 7, 6, 1, 5}, 3));
+
+        System.out.println("------------------");
+        LeetCode131 leetCode131 = new LeetCode131();
+        System.out.println(leetCode131.partition("aab"));
     }
 }
