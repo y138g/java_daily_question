@@ -30,5 +30,9 @@ public class Test {
         System.out.println("------------------");
         LeetCode131 leetCode131 = new LeetCode131();
         System.out.println(leetCode131.partition("aab"));
+
+        System.out.println("------------------");
+        LeetCode93 leetCode93 = new LeetCode93();
+        System.out.println(leetCode93.restoreIpAddresses("25525511135"));
     }
 }
