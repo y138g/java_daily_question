@@ -679,5 +679,25 @@ public class Solution {
         }
         return ans;
     }
+
+    /**
+     * 分发饼干 实现方法1：贪心算法 leetcode 455
+     *
+     * @param g 孩子数组
+     * @param s 饼干数组
+     * @return 返回满足的孩子个数
+     */
+    public int findContentChildren(int[] g, int[] s) {
+        Arrays.sort(g);
+        Arrays.sort(s);
+        int start = 0, count = 0;
+        for (int i = 0; i < s.length && start < g.length; i++) {
+            if (s[i] >= g[start]) {
+                start++;
+                count++;
+            }
+        }
+        return count;
+    }
 }
 
