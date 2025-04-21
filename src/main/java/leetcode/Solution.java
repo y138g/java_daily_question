@@ -75,6 +75,9 @@ public class Solution {
         int k1 = 3;
         int[] ints2 = maxSlidingWindowCase1(nums6, k1);
         System.out.println(Arrays.toString(ints2));
+
+        int[] nums7 = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+        System.out.println(maxSubArray(nums7));
     }
 
     /**
@@ -727,6 +730,32 @@ public class Solution {
         }
         // 返回峰值个数
         return count;
+    }
+
+    /**
+     * 最大子数组和 实现方法1：贪心算法 leetcode 53
+     *
+     * @param nums 目标数组
+     * @return 返回最大子数组和
+     */
+    public static int maxSubArray(int[] nums) {
+        // 如果数组长度为1，则直接返回该元素
+        if (nums.length == 1) return nums[0];
+        // 初始化最大和为最小整数
+        int sum = Integer.MIN_VALUE;
+        // 初始化计数器为0
+        int count = 0;
+        // 遍历数组中的每个元素
+        for (int num : nums) {
+            // 将当前元素加到计数器上
+            count += num;
+            // 更新最大和
+            sum = Math.max(sum, count);
+            // 如果计数器小于0，则重置计数器为0
+            if (count < 0) count = 0;
+        }
+        // 返回最大和
+        return sum;
     }
 }
 
