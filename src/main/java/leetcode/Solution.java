@@ -699,5 +699,34 @@ public class Solution {
         }
         return count;
     }
+
+    /**
+     * 摆动序列 实现方法1：贪心算法 leetcode 376
+     *
+     * @param nums 目标数组
+     * @return 返回摆动序列的长度
+     */
+    public int wiggleMaxLength(int[] nums) {
+        // 如果数组长度小于等于1，直接返回数组长度
+        if (nums.length <= 1) return nums.length;
+        // 当前差值
+        int curDiff = 0;
+        // 前一个差值
+        int preDiff = 0;
+        // 计数器，记录峰值个数
+        int count = 1;
+        // 遍历数组
+        for (int i = 1; i < nums.length; i++) {
+            // 计算当前差值
+            curDiff = nums[i] - nums[i - 1];
+            // 如果当前差值和前一个差值符号相反，则计数器加1，并更新前一个差值
+            if ((curDiff > 0 && preDiff <= 0) || (curDiff < 0 && preDiff >= 0)) {
+                count++;
+                preDiff = curDiff;
+            }
+        }
+        // 返回峰值个数
+        return count;
+    }
 }
 
