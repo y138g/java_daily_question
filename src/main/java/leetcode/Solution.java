@@ -75,6 +75,9 @@ public class Solution {
         int k1 = 3;
         int[] ints2 = maxSlidingWindowCase1(nums6, k1);
         System.out.println(Arrays.toString(ints2));
+
+        int[] nums7 = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
+        System.out.println(maxSubArray(nums7));
     }
 
     /**
@@ -678,6 +681,81 @@ public class Solution {
             ans[i - k + 1] = nums[deque.peek()];
         }
         return ans;
+    }
+
+    /**
+     * 分发饼干 实现方法1：贪心算法 leetcode 455
+     *
+     * @param g 孩子数组
+     * @param s 饼干数组
+     * @return 返回满足的孩子个数
+     */
+    public int findContentChildren(int[] g, int[] s) {
+        Arrays.sort(g);
+        Arrays.sort(s);
+        int start = 0, count = 0;
+        for (int i = 0; i < s.length && start < g.length; i++) {
+            if (s[i] >= g[start]) {
+                start++;
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * 摆动序列 实现方法1：贪心算法 leetcode 376
+     *
+     * @param nums 目标数组
+     * @return 返回摆动序列的长度
+     */
+    public int wiggleMaxLength(int[] nums) {
+        // 如果数组长度小于等于1，直接返回数组长度
+        if (nums.length <= 1) return nums.length;
+        // 当前差值
+        int curDiff = 0;
+        // 前一个差值
+        int preDiff = 0;
+        // 计数器，记录峰值个数
+        int count = 1;
+        // 遍历数组
+        for (int i = 1; i < nums.length; i++) {
+            // 计算当前差值
+            curDiff = nums[i] - nums[i - 1];
+            // 如果当前差值和前一个差值符号相反，则计数器加1，并更新前一个差值
+            if ((curDiff > 0 && preDiff <= 0) || (curDiff < 0 && preDiff >= 0)) {
+                count++;
+                preDiff = curDiff;
+            }
+        }
+        // 返回峰值个数
+        return count;
+    }
+
+    /**
+     * 最大子数组和 实现方法1：贪心算法 leetcode 53
+     *
+     * @param nums 目标数组
+     * @return 返回最大子数组和
+     */
+    public static int maxSubArray(int[] nums) {
+        // 如果数组长度为1，则直接返回该元素
+        if (nums.length == 1) return nums[0];
+        // 初始化最大和为最小整数
+        int sum = Integer.MIN_VALUE;
+        // 初始化计数器为0
+        int count = 0;
+        // 遍历数组中的每个元素
+        for (int num : nums) {
+            // 将当前元素加到计数器上
+            count += num;
+            // 更新最大和
+            sum = Math.max(sum, count);
+            // 如果计数器小于0，则重置计数器为0
+            if (count < 0) count = 0;
+        }
+        // 返回最大和
+        return sum;
     }
 }
 
