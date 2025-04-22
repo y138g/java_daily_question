@@ -757,5 +757,18 @@ public class Solution {
         // 返回最大和
         return sum;
     }
+
+    /**
+     * 买卖股票的最佳时机 II 实现方法1：贪心算法 leetcode 122
+     *
+     * @param prices 股票价格数组
+     * @return 返回最大利润
+     */
+    public int maxProfit(int[] prices) {
+        int result = 0;
+        // 贪心，拿当天跟前一天对比，大于0就收集
+        for (int i = 1; i < prices.length; i++) result = Math.max(prices[i] - prices[i - 1], 0);
+        return result;
+    }
 }
 
