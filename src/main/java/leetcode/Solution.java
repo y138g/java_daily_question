@@ -792,5 +792,39 @@ public class Solution {
         // 如果遍历完数组后，覆盖范围仍然没有到达或超过数组长度减1，则说明无法跳到最后一个元素，返回false
         return false;
     }
+
+    /**
+     * 跳跃游戏 II 实现方法1：贪心算法 leetcode 45
+     *
+     * @param nums 目标数组
+     * @return 返回跳跃次数
+     */
+    public int jump(int[] nums) {
+        // 判断输入数组是否为空，或者长度为0，或者长度为1，如果是，则返回0
+        if (nums == null || nums.length == 0 || nums.length == 1) return 0;
+        // 定义跳跃次数
+        int countJump = 0;
+        // 定义当前覆盖范围
+        int curCover = 0;
+        // 定义最大覆盖范围
+        int maxCover = 0;
+        // 遍历数组
+        for (int i = 0; i < nums.length; i++) {
+            // 更新最大覆盖范围
+            maxCover = Math.max(maxCover, i + nums[i]);
+            // 如果最大覆盖范围已经覆盖了数组的最后一个元素，则跳出循环
+            if (maxCover >= nums.length - 1) {
+                countJump++;
+                break;
+            }
+            // 如果当前覆盖范围等于最大覆盖范围，则更新当前覆盖范围，并增加跳跃次数
+            if (i == curCover) {
+                curCover = maxCover;
+                countJump++;
+            }
+        }
+        // 返回跳跃次数
+        return countJump;
+    }
 }
 
