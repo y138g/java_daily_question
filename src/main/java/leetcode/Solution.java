@@ -770,5 +770,27 @@ public class Solution {
         for (int i = 1; i < prices.length; i++) result = Math.max(prices[i] - prices[i - 1], 0);
         return result;
     }
+
+    /**
+     * 跳跃游戏 实现方法1：贪心算法 leetcode 55
+     *
+     * @param nums 目标数组
+     * @return 返回是否可以跳到最后一个元素
+     */
+    public boolean canJump(int[] nums) {
+        // 如果数组长度为1，则说明只有一个元素，直接返回true
+        if (nums.length == 1) return true;
+        // 初始化覆盖范围
+        int cover = 0;
+        // 遍历数组
+        for (int i = 0; i <= cover; i++) {
+            // 更新覆盖范围
+            cover = Math.max(i + nums[i], cover);
+            // 如果覆盖范围已经到达或超过数组长度减1，则说明可以跳到最后一个元素，返回true
+            if (cover >= nums.length - 1) return true;
+        }
+        // 如果遍历完数组后，覆盖范围仍然没有到达或超过数组长度减1，则说明无法跳到最后一个元素，返回false
+        return false;
+    }
 }
 
