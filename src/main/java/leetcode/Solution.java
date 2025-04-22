@@ -826,5 +826,40 @@ public class Solution {
         // 返回跳跃次数
         return countJump;
     }
+
+    /**
+     * K 次取反后最大化的数组和 实现方法1：贪心算法 leetcode 1005
+     *
+     * @param nums 目标数组
+     * @param k    取反次数
+     * @return 返回最大化的数组和
+     */
+    public int largestSumAfterKNegations(int[] nums, int k) {
+        int n = 0;
+        Arrays.sort(nums);
+        if (k > nums.length) {
+            n = k - nums.length;
+            k = nums.length;
+        }
+        for (int i = 0; i < k; i++) {
+            if (nums[i] == 0) break;
+            if (nums[i] < 0) {
+                nums[i] = -nums[i];
+                continue;
+            }
+            if (nums[i] > 0) {
+                Arrays.sort(nums);
+                if ((k - i) % 2 == 0) break;
+                nums[0] = -nums[0];
+            }
+        }
+        if (n % 2 != 0) {
+            Arrays.sort(nums);
+            nums[0] = -nums[0];
+        }
+        int sum = 0;
+        for (int num : nums) sum += num;
+        return sum;
+    }
 }
 
