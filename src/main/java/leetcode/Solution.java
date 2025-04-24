@@ -683,6 +683,10 @@ public class Solution {
         return ans;
     }
 
+    private static int compare(int[] a, int[] b) {
+        Integer.compare(a[0], b[0]);
+    }
+
     /**
      * 分发饼干 实现方法1：贪心算法 leetcode 455
      *
@@ -955,8 +959,9 @@ public class Solution {
 
     /**
      * 根据身高重建队列 实现方法1：贪心算法 leetcode 406
-     * @param people
-     * @return
+     *
+     * @param people 身高和位置数组
+     * @return 返回重建后的队列
      */
     public int[][] reconstructQueue(int[][] people) {
         // 先排序身高，大到小
@@ -967,10 +972,30 @@ public class Solution {
 
         // 再根据k值插入
         List<int[]> list = new ArrayList<>();
-        for (int[] p : people) {
-            list.add(p[1], p);
-        }
+        for (int[] p : people) list.add(p[1], p);
         return list.toArray(new int[list.size()][]);
+    }
+
+    /**
+     * 用最少数量的箭引爆气球 实现方法1：贪心算法 leetcode 452
+     *
+     * @param points 气球队列
+     * @return 返回最少的箭数
+     */
+    public int findMinArrowShots(int[][] points) {
+        // 对points数组按照每个子数组的第一个元素进行排序
+        Arrays.sort(points, Comparator.comparingInt(a -> a[0]));
+        // 初始化箭的数量为1
+        int res = 1;
+        // 遍历points数组
+        for (int i = 1; i < points.length; i++) {
+            // 如果当前子数组的第一个元素大于前一个子数组的第二个元素，说明需要增加一支箭
+            if (points[i][0] > points[i - 1][1]) res++;
+                // 否则，更新当前子数组的第二个元素为前一个子数组的第二个元素和当前子数组的第二个元素的最小值
+            else points[i][1] = Math.min(points[i][1], points[i - 1][1]);
+        }
+        // 返回箭的数量
+        return res;
     }
 }
 
