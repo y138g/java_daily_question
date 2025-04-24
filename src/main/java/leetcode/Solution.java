@@ -861,5 +861,38 @@ public class Solution {
         for (int num : nums) sum += num;
         return sum;
     }
+
+    /**
+     * 加油站 实现方法1：贪心算法 leetcode 134
+     *
+     * @param gas  加油站数组
+     * @param cost 耗油站数组
+     * @return 返回可以跑完一圈的起点
+     */
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        // 初始化总油量和最小油量
+        int sum = 0;
+        int min = 0;
+        // 遍历加油站数组
+        for (int i = 0; i < gas.length; i++) {
+            // 计算当前油量和耗油量的差值，并累加到总油量中
+            sum += gas[i] - cost[i];
+            // 更新最小油量
+            min = Math.min(sum, min);
+        }
+        // 如果总油量小于0，说明无法跑完一圈，返回-1
+        if (sum < 0) return -1;
+        // 如果最小油量大于等于0，说明起点为0
+        if (min >= 0) return 0;
+        // 从后往前遍历加油站数组
+        for (int i = gas.length - 1; i >= 0; i--) {
+            // 更新最小油量
+            min += gas[i] - cost[i];
+            // 如果最小油量大于等于0，说明起点为当前索引
+            if (min >= 0) return i;
+        }
+        // 如果没有找到起点，返回-1
+        return -1;
+    }
 }
 
