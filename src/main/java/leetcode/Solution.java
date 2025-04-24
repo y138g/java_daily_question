@@ -952,5 +952,25 @@ public class Solution {
         }
         return true;
     }
+
+    /**
+     * 根据身高重建队列 实现方法1：贪心算法 leetcode 406
+     * @param people
+     * @return
+     */
+    public int[][] reconstructQueue(int[][] people) {
+        // 先排序身高，大到小
+        Arrays.sort(people, (a, b) -> {
+            if (a[0] == b[0]) return a[1] - b[1];
+            return b[0] - a[0];
+        });
+
+        // 再根据k值插入
+        List<int[]> list = new ArrayList<>();
+        for (int[] p : people) {
+            list.add(p[1], p);
+        }
+        return list.toArray(new int[list.size()][]);
+    }
 }
 
