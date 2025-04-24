@@ -683,10 +683,6 @@ public class Solution {
         return ans;
     }
 
-    private static int compare(int[] a, int[] b) {
-        Integer.compare(a[0], b[0]);
-    }
-
     /**
      * 分发饼干 实现方法1：贪心算法 leetcode 455
      *
