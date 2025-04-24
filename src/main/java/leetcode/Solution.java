@@ -924,5 +924,33 @@ public class Solution {
         // 返回所有孩子分到的糖果数之和
         return sum;
     }
+
+    /**
+     * 柠檬水找零 实现方法1：贪心算法 leetcode 860
+     *
+     * @param bills 账单数组
+     * @return 返回是否可以完成找零
+     */
+    public boolean lemonadeChange(int[] bills) {
+        int five = 0;
+        int ten = 0;
+        for (int bill : bills) {
+            if (bill == 5) five++;
+            if (bill == 10) {
+                if (five == 0) return false;
+                five--;
+                ten++;
+            }
+            if (bill == 20) {
+                if (ten > 0 && five > 0) {
+                    ten--;
+                    five--;
+                } else if (ten == 0 && five >= 3) five -= 3;
+                else return false;
+            }
+            if (five < 0 || ten < 0) return false;
+        }
+        return true;
+    }
 }
 
