@@ -894,5 +894,35 @@ public class Solution {
         // 如果没有找到起点，返回-1
         return -1;
     }
+
+    /**
+     * 分发糖果 实现方法1：贪心算法 leetcode 135
+     *
+     * @param ratings 评分数组
+     * @return 返回每个孩子分到的糖果数之和
+     */
+    public int candy(int[] ratings) {
+        // 创建一个数组，用于存储每个孩子分到的糖果数，初始值为1
+        int[] candies = new int[ratings.length];
+        Arrays.fill(candies, 1);
+        // 从左到右遍历数组，如果当前孩子的评分比前一个孩子高，则当前孩子分到的糖果数为前一个孩子分到的糖果数加1
+        for (int i = 1; i < ratings.length; i++) {
+            if (ratings[i] > ratings[i - 1]) {
+                candies[i] = candies[i - 1] + 1;
+            }
+        }
+        // 从右到左遍历数组，如果当前孩子的评分比后一个孩子高，
+        // 则当前孩子分到的糖果数为前一个孩子分到的糖果数和后一个孩子分到的糖果数加1中的较大值
+        for (int i = ratings.length - 2; i >= 0; i--) {
+            if (ratings[i] > ratings[i + 1]) {
+                candies[i] = Math.max(candies[i], candies[i + 1] + 1);
+            }
+        }
+        // 计算所有孩子分到的糖果数之和
+        int sum = 0;
+        for (int candy : candies) sum += candy;
+        // 返回所有孩子分到的糖果数之和
+        return sum;
+    }
 }
 
