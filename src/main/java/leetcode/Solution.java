@@ -78,6 +78,9 @@ public class Solution {
 
         int[] nums7 = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
         System.out.println(maxSubArray(nums7));
+
+        String s3 = "ababcbacadefegdehijhklij";
+        System.out.println(partitionLabels(s3));
     }
 
     /**
@@ -756,6 +759,335 @@ public class Solution {
         }
         // 返回最大和
         return sum;
+    }
+
+    /**
+     * 买卖股票的最佳时机 II 实现方法1：贪心算法 leetcode 122
+     *
+     * @param prices 股票价格数组
+     * @return 返回最大利润
+     */
+    public int maxProfit(int[] prices) {
+        int result = 0;
+        // 贪心，拿当天跟前一天对比，大于0就收集
+        for (int i = 1; i < prices.length; i++) result = Math.max(prices[i] - prices[i - 1], 0);
+        return result;
+    }
+
+    /**
+     * 跳跃游戏 实现方法1：贪心算法 leetcode 55
+     *
+     * @param nums 目标数组
+     * @return 返回是否可以跳到最后一个元素
+     */
+    public boolean canJump(int[] nums) {
+        // 如果数组长度为1，则说明只有一个元素，直接返回true
+        if (nums.length == 1) return true;
+        // 初始化覆盖范围
+        int cover = 0;
+        // 遍历数组
+        for (int i = 0; i <= cover; i++) {
+            // 更新覆盖范围
+            cover = Math.max(i + nums[i], cover);
+            // 如果覆盖范围已经到达或超过数组长度减1，则说明可以跳到最后一个元素，返回true
+            if (cover >= nums.length - 1) return true;
+        }
+        // 如果遍历完数组后，覆盖范围仍然没有到达或超过数组长度减1，则说明无法跳到最后一个元素，返回false
+        return false;
+    }
+
+    /**
+     * 跳跃游戏 II 实现方法1：贪心算法 leetcode 45
+     *
+     * @param nums 目标数组
+     * @return 返回跳跃次数
+     */
+    public int jump(int[] nums) {
+        // 判断输入数组是否为空，或者长度为0，或者长度为1，如果是，则返回0
+        if (nums == null || nums.length == 0 || nums.length == 1) return 0;
+        // 定义跳跃次数
+        int countJump = 0;
+        // 定义当前覆盖范围
+        int curCover = 0;
+        // 定义最大覆盖范围
+        int maxCover = 0;
+        // 遍历数组
+        for (int i = 0; i < nums.length; i++) {
+            // 更新最大覆盖范围
+            maxCover = Math.max(maxCover, i + nums[i]);
+            // 如果最大覆盖范围已经覆盖了数组的最后一个元素，则跳出循环
+            if (maxCover >= nums.length - 1) {
+                countJump++;
+                break;
+            }
+            // 如果当前覆盖范围等于最大覆盖范围，则更新当前覆盖范围，并增加跳跃次数
+            if (i == curCover) {
+                curCover = maxCover;
+                countJump++;
+            }
+        }
+        // 返回跳跃次数
+        return countJump;
+    }
+
+    /**
+     * K 次取反后最大化的数组和 实现方法1：贪心算法 leetcode 1005
+     *
+     * @param nums 目标数组
+     * @param k    取反次数
+     * @return 返回最大化的数组和
+     */
+    public int largestSumAfterKNegations(int[] nums, int k) {
+        int n = 0;
+        Arrays.sort(nums);
+        if (k > nums.length) {
+            n = k - nums.length;
+            k = nums.length;
+        }
+        for (int i = 0; i < k; i++) {
+            if (nums[i] == 0) break;
+            if (nums[i] < 0) {
+                nums[i] = -nums[i];
+                continue;
+            }
+            if (nums[i] > 0) {
+                Arrays.sort(nums);
+                if ((k - i) % 2 == 0) break;
+                nums[0] = -nums[0];
+            }
+        }
+        if (n % 2 != 0) {
+            Arrays.sort(nums);
+            nums[0] = -nums[0];
+        }
+        int sum = 0;
+        for (int num : nums) sum += num;
+        return sum;
+    }
+
+    /**
+     * 加油站 实现方法1：贪心算法 leetcode 134
+     *
+     * @param gas  加油站数组
+     * @param cost 耗油站数组
+     * @return 返回可以跑完一圈的起点
+     */
+    public int canCompleteCircuit(int[] gas, int[] cost) {
+        // 初始化总油量和最小油量
+        int sum = 0;
+        int min = 0;
+        // 遍历加油站数组
+        for (int i = 0; i < gas.length; i++) {
+            // 计算当前油量和耗油量的差值，并累加到总油量中
+            sum += gas[i] - cost[i];
+            // 更新最小油量
+            min = Math.min(sum, min);
+        }
+        // 如果总油量小于0，说明无法跑完一圈，返回-1
+        if (sum < 0) return -1;
+        // 如果最小油量大于等于0，说明起点为0
+        if (min >= 0) return 0;
+        // 从后往前遍历加油站数组
+        for (int i = gas.length - 1; i >= 0; i--) {
+            // 更新最小油量
+            min += gas[i] - cost[i];
+            // 如果最小油量大于等于0，说明起点为当前索引
+            if (min >= 0) return i;
+        }
+        // 如果没有找到起点，返回-1
+        return -1;
+    }
+
+    /**
+     * 分发糖果 实现方法1：贪心算法 leetcode 135
+     *
+     * @param ratings 评分数组
+     * @return 返回每个孩子分到的糖果数之和
+     */
+    public int candy(int[] ratings) {
+        // 创建一个数组，用于存储每个孩子分到的糖果数，初始值为1
+        int[] candies = new int[ratings.length];
+        Arrays.fill(candies, 1);
+        // 从左到右遍历数组，如果当前孩子的评分比前一个孩子高，则当前孩子分到的糖果数为前一个孩子分到的糖果数加1
+        for (int i = 1; i < ratings.length; i++) {
+            if (ratings[i] > ratings[i - 1]) {
+                candies[i] = candies[i - 1] + 1;
+            }
+        }
+        // 从右到左遍历数组，如果当前孩子的评分比后一个孩子高，
+        // 则当前孩子分到的糖果数为前一个孩子分到的糖果数和后一个孩子分到的糖果数加1中的较大值
+        for (int i = ratings.length - 2; i >= 0; i--) {
+            if (ratings[i] > ratings[i + 1]) {
+                candies[i] = Math.max(candies[i], candies[i + 1] + 1);
+            }
+        }
+        // 计算所有孩子分到的糖果数之和
+        int sum = 0;
+        for (int candy : candies) sum += candy;
+        // 返回所有孩子分到的糖果数之和
+        return sum;
+    }
+
+    /**
+     * 柠檬水找零 实现方法1：贪心算法 leetcode 860
+     *
+     * @param bills 账单数组
+     * @return 返回是否可以完成找零
+     */
+    public boolean lemonadeChange(int[] bills) {
+        int five = 0;
+        int ten = 0;
+        for (int bill : bills) {
+            if (bill == 5) five++;
+            if (bill == 10) {
+                if (five == 0) return false;
+                five--;
+                ten++;
+            }
+            if (bill == 20) {
+                if (ten > 0 && five > 0) {
+                    ten--;
+                    five--;
+                } else if (ten == 0 && five >= 3) five -= 3;
+                else return false;
+            }
+            if (five < 0 || ten < 0) return false;
+        }
+        return true;
+    }
+
+    /**
+     * 根据身高重建队列 实现方法1：贪心算法 leetcode 406
+     *
+     * @param people 身高和位置数组
+     * @return 返回重建后的队列
+     */
+    public int[][] reconstructQueue(int[][] people) {
+        // 先排序身高，大到小
+        Arrays.sort(people, (a, b) -> {
+            if (a[0] == b[0]) return a[1] - b[1];
+            return b[0] - a[0];
+        });
+
+        // 再根据k值插入
+        List<int[]> list = new ArrayList<>();
+        for (int[] p : people) list.add(p[1], p);
+        return list.toArray(new int[list.size()][]);
+    }
+
+    /**
+     * 用最少数量的箭引爆气球 实现方法1：贪心算法 leetcode 452
+     *
+     * @param points 气球队列
+     * @return 返回最少的箭数
+     */
+    public int findMinArrowShots(int[][] points) {
+        // 对points数组按照每个子数组的第一个元素进行排序
+        Arrays.sort(points, Comparator.comparingInt(a -> a[0]));
+        // 初始化箭的数量为1
+        int res = 1;
+        // 遍历points数组
+        for (int i = 1; i < points.length; i++) {
+            // 如果当前子数组的第一个元素大于前一个子数组的第二个元素，说明需要增加一支箭
+            if (points[i][0] > points[i - 1][1]) res++;
+                // 否则，更新当前子数组的第二个元素为前一个子数组的第二个元素和当前子数组的第二个元素的最小值
+            else points[i][1] = Math.min(points[i][1], points[i - 1][1]);
+        }
+        // 返回箭的数量
+        return res;
+    }
+
+    /**
+     * 无重叠区间 实现方法1：贪心算法 leetcode 435
+     *
+     * @param intervals 区间数组
+     * @return 返回删除的区间数
+     */
+    public int eraseOverlapIntervals(int[][] intervals) {
+        // 对数组进行排序，按照每个子数组的第一个元素进行排序
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+        // 初始化结果为1
+        int res = 1;
+        // 遍历数组
+        for (int i = 1; i < intervals.length; i++) {
+            // 如果当前子数组的第一个元素小于前一个子数组的第二个元素，说明有重叠
+            if (intervals[i][0] < intervals[i - 1][1]) {
+                // 更新当前子数组的第二个元素为前一个子数组的第二个元素和当前子数组的第二个元素的最小值
+                intervals[i][1] = Math.min(intervals[i][1], intervals[i - 1][1]);
+                // 继续下一次循环
+                continue;
+            }
+            // 如果没有重叠，结果加1
+            res++;
+        }
+        // 返回结果
+        return intervals.length - res;
+    }
+
+    /**
+     * 划分字母区间 实现方法1：贪心算法 leetcode 763
+     *
+     * @param s 字符串
+     * @return 返回每个分区的长度
+     */
+    public static List<Integer> partitionLabels(String s) {
+        // 创建一个链表，用于存储每个分区的长度
+        List<Integer> list = new LinkedList<>();
+        // 创建一个数组，用于存储每个字符最后出现的位置
+        int[] edge = new int[26];
+        // 将字符串转换为字符数组
+        char[] chars = s.toCharArray();
+        // 遍历字符数组，记录每个字符最后出现的位置
+        for (int i = 0; i < s.length(); i++) edge[chars[i] - 'a'] = i;
+        // 初始化索引和最后一个分区的结束位置
+        int idx = 0;
+        int last = -1;
+        // 遍历字符数组，计算每个分区的长度
+        for (int i = 0; i < s.length(); i++) {
+            // 更新索引，记录当前字符最后出现的位置
+            idx = Math.max(idx, edge[chars[i] - 'a']);
+            // 如果当前索引等于最后一个分区的结束位置，则将当前分区的长度添加到链表中
+            if (i == idx) {
+                list.add(i - last);
+                // 更新最后一个分区的结束位置
+                last = i;
+            }
+        }
+        // 返回链表
+        return list;
+    }
+
+    /**
+     * 合并区间 实现方法1：贪心算法 leetcode 56
+     *
+     * @param intervals 区间数组
+     * @return 返回合并后的区间数组
+     */
+    public int[][] merge(int[][] intervals) {
+        // 创建一个列表，用于存储合并后的区间
+        List<int[]> list = new ArrayList<>();
+        // 对区间按照左边界进行排序
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+        // 初始化区间的左边界和右边界
+        int start = intervals[0][0];
+        int rightmostRightBound = intervals[0][1];
+        // 遍历区间
+        for (int i = 1; i < intervals.length; i++) {
+            // 如果当前区间的左边界小于等于右边界，则合并区间
+            if (intervals[i][0] <= rightmostRightBound) {
+                rightmostRightBound = Math.max(rightmostRightBound, intervals[i][1]);
+                continue;
+            }
+            // 将合并后的区间添加到列表中
+            list.add(new int[]{start, rightmostRightBound});
+            // 更新区间的左边界和右边界
+            start = intervals[i][0];
+            rightmostRightBound = intervals[i][1];
+        }
+        // 将最后一个区间添加到列表中
+        list.add(new int[]{start, rightmostRightBound});
+        // 将列表转换为二维数组并返回
+        return list.toArray(new int[list.size()][]);
     }
 }
 
