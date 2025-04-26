@@ -78,6 +78,9 @@ public class Solution {
 
         int[] nums7 = {-2, 1, -3, 4, -1, 2, 1, -5, 4};
         System.out.println(maxSubArray(nums7));
+
+        String s3 = "ababcbacadefegdehijhklij";
+        System.out.println(partitionLabels(s3));
     }
 
     /**
@@ -1019,6 +1022,39 @@ public class Solution {
         }
         // 返回结果
         return intervals.length - res;
+    }
+
+    /**
+     * 划分字母区间 实现方法1：贪心算法 leetcode 763
+     *
+     * @param s 字符串
+     * @return 返回每个分区的长度
+     */
+    public static List<Integer> partitionLabels(String s) {
+        // 创建一个链表，用于存储每个分区的长度
+        List<Integer> list = new LinkedList<>();
+        // 创建一个数组，用于存储每个字符最后出现的位置
+        int[] edge = new int[26];
+        // 将字符串转换为字符数组
+        char[] chars = s.toCharArray();
+        // 遍历字符数组，记录每个字符最后出现的位置
+        for (int i = 0; i < s.length(); i++) edge[chars[i] - 'a'] = i;
+        // 初始化索引和最后一个分区的结束位置
+        int idx = 0;
+        int last = -1;
+        // 遍历字符数组，计算每个分区的长度
+        for (int i = 0; i < s.length(); i++) {
+            // 更新索引，记录当前字符最后出现的位置
+            idx = Math.max(idx, edge[chars[i] - 'a']);
+            // 如果当前索引等于最后一个分区的结束位置，则将当前分区的长度添加到链表中
+            if (i == idx) {
+                list.add(i - last);
+                // 更新最后一个分区的结束位置
+                last = i;
+            }
+        }
+        // 返回链表
+        return list;
     }
 }
 
