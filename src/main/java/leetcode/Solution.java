@@ -1056,5 +1056,38 @@ public class Solution {
         // 返回链表
         return list;
     }
+
+    /**
+     * 合并区间 实现方法1：贪心算法 leetcode 56
+     *
+     * @param intervals 区间数组
+     * @return 返回合并后的区间数组
+     */
+    public int[][] merge(int[][] intervals) {
+        // 创建一个列表，用于存储合并后的区间
+        List<int[]> list = new ArrayList<>();
+        // 对区间按照左边界进行排序
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+        // 初始化区间的左边界和右边界
+        int start = intervals[0][0];
+        int rightmostRightBound = intervals[0][1];
+        // 遍历区间
+        for (int i = 1; i < intervals.length; i++) {
+            // 如果当前区间的左边界小于等于右边界，则合并区间
+            if (intervals[i][0] <= rightmostRightBound) {
+                rightmostRightBound = Math.max(rightmostRightBound, intervals[i][1]);
+                continue;
+            }
+            // 将合并后的区间添加到列表中
+            list.add(new int[]{start, rightmostRightBound});
+            // 更新区间的左边界和右边界
+            start = intervals[i][0];
+            rightmostRightBound = intervals[i][1];
+        }
+        // 将最后一个区间添加到列表中
+        list.add(new int[]{start, rightmostRightBound});
+        // 将列表转换为二维数组并返回
+        return list.toArray(new int[list.size()][]);
+    }
 }
 
