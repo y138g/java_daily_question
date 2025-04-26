@@ -993,5 +993,32 @@ public class Solution {
         // 返回箭的数量
         return res;
     }
+
+    /**
+     * 无重叠区间 实现方法1：贪心算法 leetcode 435
+     *
+     * @param intervals 区间数组
+     * @return 返回删除的区间数
+     */
+    public int eraseOverlapIntervals(int[][] intervals) {
+        // 对数组进行排序，按照每个子数组的第一个元素进行排序
+        Arrays.sort(intervals, Comparator.comparingInt(a -> a[0]));
+        // 初始化结果为1
+        int res = 1;
+        // 遍历数组
+        for (int i = 1; i < intervals.length; i++) {
+            // 如果当前子数组的第一个元素小于前一个子数组的第二个元素，说明有重叠
+            if (intervals[i][0] < intervals[i - 1][1]) {
+                // 更新当前子数组的第二个元素为前一个子数组的第二个元素和当前子数组的第二个元素的最小值
+                intervals[i][1] = Math.min(intervals[i][1], intervals[i - 1][1]);
+                // 继续下一次循环
+                continue;
+            }
+            // 如果没有重叠，结果加1
+            res++;
+        }
+        // 返回结果
+        return intervals.length - res;
+    }
 }
 
