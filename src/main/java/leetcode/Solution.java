@@ -81,6 +81,8 @@ public class Solution {
 
         String s3 = "ababcbacadefegdehijhklij";
         System.out.println(partitionLabels(s3));
+
+        System.out.println(climbStairs(4));
     }
 
     /**
@@ -1114,6 +1116,22 @@ public class Solution {
         dp[0] = 0;
         dp[1] = 1;
         for (int i = 2; i <= n; i++) dp[i] = dp[i - 1] + dp[i - 2];
+        return dp[n];
+    }
+
+    /**
+     * 爬楼梯 实现方法1：动态规划 leetcode 70
+     *
+     * @param n 楼梯数
+     * @return 返回爬楼梯的方法数
+     */
+    public static int climbStairs(int n) {
+        if (n < 4) return n;
+        int[] dp = new int[n + 1];
+        dp[0] = 0;
+        dp[1] = 1;
+        dp[2] = 2;
+        for (int i = 3; i <= n; i++) dp[i] = dp[i - 1] + dp[i - 2];
         return dp[n];
     }
 }
