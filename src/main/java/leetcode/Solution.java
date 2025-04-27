@@ -1089,5 +1089,32 @@ public class Solution {
         // 将列表转换为二维数组并返回
         return list.toArray(new int[list.size()][]);
     }
+
+    /**
+     * 斐波那契数列 实现方法1：递归 leetcode 509
+     *
+     * @param n 斐波那契数列的第n项
+     * @return 返回斐波那契数列的第n项
+     */
+    public int fibCase1(int n) {
+        if (n == 0) return 0;
+        if (n == 1) return 1;
+        return fibCase1(n - 1) + fibCase1(n - 2);
+    }
+
+    /**
+     * 斐波那契数列 实现方法2：动态规划 leetcode 509
+     *
+     * @param n 斐波那契数列的第n项
+     * @return 返回斐波那契数列的第n项
+     */
+    public int fibCase2(int n) {
+        if (n < 2) return n;
+        int[] dp = new int[n + 1];
+        dp[0] = 0;
+        dp[1] = 1;
+        for (int i = 2; i <= n; i++) dp[i] = dp[i - 1] + dp[i - 2];
+        return dp[n];
+    }
 }
 
