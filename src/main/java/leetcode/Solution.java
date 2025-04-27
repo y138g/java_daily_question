@@ -81,6 +81,10 @@ public class Solution {
 
         String s3 = "ababcbacadefegdehijhklij";
         System.out.println(partitionLabels(s3));
+
+        System.out.println(climbStairs(4));
+
+        System.out.println(minCostClimbingStairs(new int[]{1, 100, 1, 1, 1, 100, 1, 1, 100, 1}));
     }
 
     /**
@@ -1088,6 +1092,63 @@ public class Solution {
         list.add(new int[]{start, rightmostRightBound});
         // 将列表转换为二维数组并返回
         return list.toArray(new int[list.size()][]);
+    }
+
+    /**
+     * 斐波那契数列 实现方法1：递归 leetcode 509
+     *
+     * @param n 斐波那契数列的第n项
+     * @return 返回斐波那契数列的第n项
+     */
+    public int fibCase1(int n) {
+        if (n == 0) return 0;
+        if (n == 1) return 1;
+        return fibCase1(n - 1) + fibCase1(n - 2);
+    }
+
+    /**
+     * 斐波那契数列 实现方法2：动态规划 leetcode 509
+     *
+     * @param n 斐波那契数列的第n项
+     * @return 返回斐波那契数列的第n项
+     */
+    public int fibCase2(int n) {
+        if (n < 2) return n;
+        int[] dp = new int[n + 1];
+        dp[0] = 0;
+        dp[1] = 1;
+        for (int i = 2; i <= n; i++) dp[i] = dp[i - 1] + dp[i - 2];
+        return dp[n];
+    }
+
+    /**
+     * 爬楼梯 实现方法1：动态规划 leetcode 70
+     *
+     * @param n 楼梯数
+     * @return 返回爬楼梯的方法数
+     */
+    public static int climbStairs(int n) {
+        if (n < 4) return n;
+        int[] dp = new int[n + 1];
+        dp[0] = 0;
+        dp[1] = 1;
+        dp[2] = 2;
+        for (int i = 3; i <= n; i++) dp[i] = dp[i - 1] + dp[i - 2];
+        return dp[n];
+    }
+
+    /**
+     * 使用最小花费爬楼梯 实现方法1：动态规划 leetcode 746
+     *
+     * @param cost 爬楼梯的花费数组
+     * @return 返回爬楼梯的最小花费
+     */
+    public static int minCostClimbingStairs(int[] cost) {
+        int[] dp = new int[cost.length + 1];
+        dp[0] = cost[0];
+        dp[1] = cost[1];
+        for (int i = 2; i < cost.length; i++) dp[i] = Math.min(dp[i - 1], dp[i - 2]) + cost[i];
+        return Math.min(dp[cost.length - 1], dp[cost.length - 2]);
     }
 }
 
