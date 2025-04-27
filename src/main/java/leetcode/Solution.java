@@ -83,6 +83,8 @@ public class Solution {
         System.out.println(partitionLabels(s3));
 
         System.out.println(climbStairs(4));
+
+        System.out.println(minCostClimbingStairs(new int[]{1, 100, 1, 1, 1, 100, 1, 1, 100, 1}));
     }
 
     /**
@@ -1133,6 +1135,20 @@ public class Solution {
         dp[2] = 2;
         for (int i = 3; i <= n; i++) dp[i] = dp[i - 1] + dp[i - 2];
         return dp[n];
+    }
+
+    /**
+     * 使用最小花费爬楼梯 实现方法1：动态规划 leetcode 746
+     *
+     * @param cost 爬楼梯的花费数组
+     * @return 返回爬楼梯的最小花费
+     */
+    public static int minCostClimbingStairs(int[] cost) {
+        int[] dp = new int[cost.length + 1];
+        dp[0] = cost[0];
+        dp[1] = cost[1];
+        for (int i = 2; i < cost.length; i++) dp[i] = Math.min(dp[i - 1], dp[i - 2]) + cost[i];
+        return Math.min(dp[cost.length - 1], dp[cost.length - 2]);
     }
 }
 
