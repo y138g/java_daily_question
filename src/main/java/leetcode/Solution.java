@@ -1150,5 +1150,26 @@ public class Solution {
         for (int i = 2; i < cost.length; i++) dp[i] = Math.min(dp[i - 1], dp[i - 2]) + cost[i];
         return Math.min(dp[cost.length - 1], dp[cost.length - 2]);
     }
+
+    /**
+     * 不同路径 实现方法1：动态规划 leetcode 62
+     *
+     * @param m 行数
+     * @param n 列数
+     * @return 返回不同路径的数量
+     */
+    public int uniquePaths(int m, int n) {
+        // 含义：走到（i，j）有多少种路径
+        int[][] dp = new int[m][n];
+        // 初始化 dp 数组
+        for (int i = 0; i < m; i++) dp[i][0] = 1;
+        for (int j = 0; j < n; j++) dp[0][j] = 1;
+        for (int i = 1; i < m; i++) {
+            for (int j = 1; j < n; j++) {
+                dp[i][j] = dp[i - 1][j] + dp[i][j - 1];
+            }
+        }
+        return dp[m - 1][n - 1];
+    }
 }
 
